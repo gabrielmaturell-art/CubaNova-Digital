@@ -16,30 +16,30 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: #f3f3f3;
       color: #222;
     }
 
     header {
       background: #111;
       color: white;
-      padding: 20px;
+      padding: 22px;
       text-align: center;
     }
 
     header h1 {
-      margin: 0;
+      margin: 0 0 6px;
     }
 
     .container {
-      max-width: 1100px;
-      margin: 30px auto;
-      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+      padding: 25px 15px;
     }
 
     .card {
       background: white;
-      padding: 25px;
+      padding: 22px;
       border-radius: 12px;
       margin-bottom: 20px;
       box-shadow: 0 3px 12px rgba(0,0,0,.08);
@@ -52,19 +52,27 @@
       padding: 12px;
       margin-top: 10px;
       border-radius: 8px;
-      border: 1px solid #ccc;
       font-size: 16px;
     }
 
+    input,
+    textarea {
+      border: 1px solid #ccc;
+    }
+
     button {
+      border: none;
       background: #111;
       color: white;
       cursor: pointer;
-      border: none;
     }
 
     button:hover {
-      opacity: .9;
+      opacity: .88;
+    }
+
+    .secondary {
+      background: #666;
     }
 
     .danger {
@@ -73,38 +81,93 @@
 
     .success {
       color: green;
-      margin-top: 10px;
+      margin-top: 12px;
     }
 
     .error {
       color: #b00020;
-      margin-top: 10px;
+      margin-top: 12px;
     }
 
     #panel {
       display: none;
     }
 
-    .grid {
+    .nav {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
     }
 
-    .stat {
+    .nav button {
+      margin: 0;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th,
+    td {
+      padding: 11px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #f5f5f5;
+    }
+
+    .empty {
       padding: 20px;
-      border-radius: 10px;
-      background: #fafafa;
-      border: 1px solid #ddd;
-    }
-
-    .stat h3 {
-      margin-top: 0;
+      text-align: center;
+      color: #666;
     }
 
     .logout {
-      max-width: 200px;
-      margin-top: 15px;
+      max-width: 220px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .stat {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 600px) {
+      th,
+      td {
+        font-size: 13px;
+      }
     }
   </style>
 </head>
@@ -119,11 +182,12 @@
 <div class="container">
 
   <!-- LOGIN -->
+
   <section id="loginBox" class="card">
 
     <h2>Acceso administrativo</h2>
 
-    <p>Introduce el correo y contraseña de tu cuenta administradora.</p>
+    <p>Introduce tu correo y contraseña.</p>
 
     <input
       type="email"
@@ -142,27 +206,30 @@
     <button onclick="iniciarSesion()">
       Entrar al panel
     </button>
-<button
-  type="button"
-  onclick="recuperarContrasena()"
-  style="background:#666;"
->
-  Olvidé mi contraseña
-</button>
+
+    <button
+      type="button"
+      class="secondary"
+      onclick="recuperarContrasena()"
+    >
+      Olvidé mi contraseña
+    </button>
+
     <div id="loginMessage"></div>
 
   </section>
 
 
   <!-- PANEL -->
+
   <section id="panel">
 
     <div class="card">
 
-      <h2>Bienvenido, administrador</h2>
+      <h2>Panel de Administración</h2>
 
-      <p>
-        Desde aquí podrás administrar CUBANOVA DIGITAL.
+      <p id="adminName">
+        Administrador
       </p>
 
       <button
@@ -175,39 +242,239 @@
     </div>
 
 
-    <div class="grid">
+    <!-- MENU -->
 
-      <div class="stat">
-        <h3>🛒 Productos</h3>
-        <p>Agregar, modificar y eliminar productos digitales.</p>
-      </div>
+    <div class="nav">
 
-      <div class="stat">
-        <h3>🔮 Consultas</h3>
-        <p>Administrar consultas y modificar precios.</p>
-      </div>
+      <button onclick="mostrarSeccion('inicio')">
+        🏠 Inicio
+      </button>
 
-      <div class="stat">
-        <h3>🍽️ Recetas</h3>
-        <p>Administrar recetas y contenido gastronómico.</p>
-      </div>
+      <button onclick="mostrarSeccion('clientes')">
+        👥 Clientes
+      </button>
 
-      <div class="stat">
-        <h3>👥 Clientes</h3>
-        <p>Consultar y administrar registros de clientes.</p>
-      </div>
+      <button onclick="mostrarSeccion('consultas')">
+        🔮 Consultas
+      </button>
 
-      <div class="stat">
-        <h3>⚙️ Configuración</h3>
-        <p>Administrar WhatsApp y datos generales.</p>
-      </div>
+      <button onclick="mostrarSeccion('productos')">
+        🛒 Productos
+      </button>
 
-      <div class="stat">
-        <h3>💳 Pagos</h3>
-        <p>Preparado para la futura integración con QvaPay.</p>
-      </div>
+      <button onclick="mostrarSeccion('recetas')">
+        🍽️ Recetas
+      </button>
+
+      <button onclick="mostrarSeccion('configuracion')">
+        ⚙️ Configuración
+      </button>
 
     </div>
+
+
+    <!-- INICIO -->
+
+    <section id="inicio" class="section active">
+
+      <div class="card">
+
+        <h2>Resumen</h2>
+
+        <div class="stat-grid">
+
+          <div class="stat">
+            Clientes
+            <strong id="totalClientes">0</strong>
+          </div>
+
+          <div class="stat">
+            Consultas
+            <strong id="totalConsultas">0</strong>
+          </div>
+
+          <div class="stat">
+            Productos
+            <strong id="totalProductos">0</strong>
+          </div>
+
+          <div class="stat">
+            Recetas
+            <strong id="totalRecetas">0</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CLIENTES -->
+
+    <section id="clientes" class="section">
+
+      <div class="card">
+
+        <h2>👥 Clientes registrados</h2>
+
+        <button onclick="cargarClientes()">
+          Actualizar clientes
+        </button>
+
+        <div id="clientesMensaje"></div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+
+            <tbody id="clientesTabla"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CONSULTAS -->
+
+    <section id="consultas" class="section">
+
+      <div class="card">
+
+        <h2>🔮 Consultas espirituales</h2>
+
+        <button onclick="cargarConsultas()">
+          Actualizar consultas
+        </button>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+
+            <tbody id="consultasTabla"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PRODUCTOS -->
+
+    <section id="productos" class="section">
+
+      <div class="card">
+
+        <h2>🛒 Productos digitales</h2>
+
+        <button onclick="cargarProductos()">
+          Actualizar productos
+        </button>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+
+            <tbody id="productosTabla"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- RECETAS -->
+
+    <section id="recetas" class="section">
+
+      <div class="card">
+
+        <h2>🍽️ Recetas</h2>
+
+        <button onclick="cargarRecetas()">
+          Actualizar recetas
+        </button>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Gratis</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+
+            <tbody id="recetasTabla"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CONFIGURACION -->
+
+    <section id="configuracion" class="section">
+
+      <div class="card">
+
+        <h2>⚙️ Configuración</h2>
+
+        <p>
+          Datos generales actualmente guardados:
+        </p>
+
+        <div id="configuracionDatos">
+          Cargando...
+        </div>
+
+      </div>
+
+    </section>
 
   </section>
 
@@ -215,6 +482,10 @@
 
 
 <script>
+
+  /* =========================================
+     CONEXIÓN SUPABASE
+     ========================================= */
 
   const SUPABASE_URL =
     "https://bxhfbzvgqgnzxxytqlbt.supabase.co";
@@ -228,6 +499,10 @@
       SUPABASE_KEY
     );
 
+
+  /* =========================================
+     LOGIN
+     ========================================= */
 
   async function iniciarSesion() {
 
@@ -255,18 +530,17 @@
     }
 
 
-    const { data, error } =
+    const { error } =
       await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
+        email,
+        password
       });
 
 
     if (error) {
 
       message.textContent =
-        "No se pudo iniciar sesión: " +
-        error.message;
+        "No se pudo iniciar sesión. Comprueba tus datos.";
 
       message.className = "error";
 
@@ -278,11 +552,16 @@
   }
 
 
+  /* =========================================
+     COMPROBAR ADMIN
+     ========================================= */
+
   async function comprobarAdministrador() {
 
     const {
       data: { user }
-    } = await supabaseClient.auth.getUser();
+    } =
+      await supabaseClient.auth.getUser();
 
 
     if (!user) {
@@ -319,102 +598,79 @@
     }
 
 
+    document.getElementById("adminName").textContent =
+      "Administrador: " +
+      (data.nombre || "") +
+      " " +
+      (data.apellido || "");
+
+
     mostrarPanel();
+
+    cargarResumen();
+    cargarConfiguracion();
   }
 
 
-  function mostrarPanel() {
+  /* =========================================
+     RECUPERAR CONTRASEÑA
+     ========================================= */
 
-    document.getElementById("loginBox").style.display =
-      "none";
+  async function recuperarContrasena() {
 
-    document.getElementById("panel").style.display =
-      "block";
+    const email =
+      document.getElementById("email").value.trim();
+
+    const message =
+      document.getElementById("loginMessage");
+
+
+    if (!email) {
+
+      message.textContent =
+        "Escribe primero tu correo electrónico.";
+
+      message.className = "error";
+
+      return;
+    }
+
+
+    const { error } =
+      await supabaseClient.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo:
+            "https://gabrielmaturell-art.github.io/CubaNova-Digital/admin.html"
+        }
+      );
+
+
+    if (error) {
+
+      message.textContent =
+        "No se pudo enviar el correo. Inténtalo más tarde.";
+
+      message.className = "error";
+
+      return;
+    }
+
+
+    message.textContent =
+      "Correo de recuperación enviado.";
+
+    message.className = "success";
   }
 
+
+  /* =========================================
+     MOSTRAR / OCULTAR
+     ========================================= */
 
   function mostrarLogin() {
 
     document.getElementById("loginBox").style.display =
       "block";
 
-    document.getElementById("panel").style.display =
-      "none";
-  }
-
-
-  async function cerrarSesion() {
-
-    await supabaseClient.auth.signOut();
-
-    mostrarLogin();
-  }
-
-async function recuperarContrasena() {
-
-  const email =
-    document.getElementById("email").value.trim();
-
-  const message =
-    document.getElementById("loginMessage");
-
-  if (!email) {
-
-    message.textContent =
-      "Escribe primero tu correo electrónico.";
-
-    message.className = "error";
-
-    return;
-  }
-
-  const { error } =
-    await supabaseClient.auth.resetPasswordForEmail(
-      email,
-      {
-        redirectTo:
-          "https://gabrielmaturell-art.github.io/CubaNova-Digital/admin.html"
-      }
-    );
-
-  if (error) {
-
-    message.textContent =
-      "No se pudo enviar el correo: " +
-      error.message;
-
-    message.className = "error";
-
-    return;
-  }
-
-  message.textContent =
-    "Te enviamos un correo para restablecer tu contraseña.";
-
-  message.className = "success";
-  }
-  async function comprobarSesionInicial() {
-
-    const {
-      data: { session }
-    } = await supabaseClient.auth.getSession();
-
-
-    if (session) {
-
-      await comprobarAdministrador();
-
-    } else {
-
-      mostrarLogin();
-
-    }
-  }
-
-
-  comprobarSesionInicial();
-
-</script>
-
-</body>
-  </html>
+   
