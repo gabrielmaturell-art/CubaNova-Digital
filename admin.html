@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin | CUBANOVA DIGITAL</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    }
+
+    input,
+    textarea,
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      background: #111;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    .danger {
+      background: #b00020;
+    }
+
+    .success {
+      color: green;
+      margin-top: 10px;
+    }
+
+    .error {
+      color: #b00020;
+      margin-top: 10px;
+    }
+
+    #panel {
+      display: none;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .stat {
+      padding: 20px;
+      border-radius: 10px;
+      background: #fafafa;
+      border: 1px solid #ddd;
+    }
+
+    .stat h3 {
+      margin-top: 0;
+    }
+
+    .logout {
+      max-width: 200px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>CUBANOVA DIGITAL</h1>
+  <p>Panel de Administración</p>
+</header>
+
+<div class="container">
+
+  <!-- LOGIN -->
+  <section id="loginBox" class="card">
+
+    <h2>Acceso administrativo</h2>
+
+    <p>Introduce el correo y contraseña de tu cuenta administradora.</p>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Correo electrónico"
+      autocomplete="email"
+    >
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Contraseña"
+      autocomplete="current-password"
+    >
+
+    <button onclick="iniciarSesion()">
+      Entrar al panel
+    </button>
+
+    <div id="loginMessage"></div>
+
+  </section>
+
+
+  <!-- PANEL -->
+  <section id="panel">
+
+    <div class="card">
+
+      <h2>Bienvenido, administrador</h2>
+
+      <p>
+        Desde aquí podrás administrar CUBANOVA DIGITAL.
+      </p>
+
+      <button
+        class="danger logout"
+        onclick="cerrarSesion()"
+      >
+        Cerrar sesión
+      </button>
+
+    </div>
+
+
+    <div class="grid">
+
+      <div class="stat">
+        <h3>🛒 Productos</h3>
+        <p>Agregar, modificar y eliminar productos digitales.</p>
+      </div>
+
+      <div class="stat">
+        <h3>🔮 Consultas</h3>
+        <p>Administrar consultas y modificar precios.</p>
+      </div>
+
+      <div class="stat">
+        <h3>🍽️ Recetas</h3>
+        <p>Administrar recetas y contenido gastronómico.</p>
+      </div>
+
+      <div class="stat">
+        <h3>👥 Clientes</h3>
+        <p>Consultar y administrar registros de clientes.</p>
+      </div>
+
+      <div class="stat">
+        <h3>⚙️ Configuración</h3>
+        <p>Administrar WhatsApp y datos generales.</p>
+      </div>
+
+      <div class="stat">
+        <h3>💳 Pagos</h3>
+        <p>Preparado para la futura integración con QvaPay.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<script>
+
+  const SUPABASE_URL =
+    "https://bxhfbzvgqgnzxxytqlbt.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_rXERH1V4wpnZ9EXrZeEpJg_0sz4oczA";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  async function iniciarSesion() {
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+    const message =
+      document.getElementById("loginMessage");
+
+    message.textContent = "";
+    message.className = "";
+
+
+    if (!email || !password) {
+
+      message.textContent =
+        "Escribe tu correo y contraseña.";
+
+      message.className = "error";
+
+      return;
+    }
+
+
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+
+    if (error) {
+
+      message.textContent =
+        "No se pudo iniciar sesión: " +
+        error.message;
+
+      message.className = "error";
+
+      return;
+    }
+
+
+    await comprobarAdministrador();
+  }
+
+
+  async function comprobarAdministrador() {
+
+    const {
+      data: { user }
+    } = await supabaseClient.auth.getUser();
+
+
+    if (!user) {
+
+      mostrarLogin();
+
+      return;
+    }
+
+
+    const { data, error } =
+      await supabaseClient
+        .from("profiles")
+        .select("nombre, apellido, role")
+        .eq("id", user.id)
+        .single();
+
+
+    if (error || !data || data.role !== "admin") {
+
+      await supabaseClient.auth.signOut();
+
+      const message =
+        document.getElementById("loginMessage");
+
+      message.textContent =
+        "Acceso denegado. Esta cuenta no es administradora.";
+
+      message.className = "error";
+
+      mostrarLogin();
+
+      return;
+    }
+
+
+    mostrarPanel();
+  }
+
+
+  function mostrarPanel() {
+
+    document.getElementById("loginBox").style.display =
+      "none";
+
+    document.getElementById("panel").style.display =
+      "block";
+  }
+
+
+  function mostrarLogin() {
+
+    document.getElementById("loginBox").style.display =
+      "block";
+
+    document.getElementById("panel").style.display =
+      "none";
+  }
+
+
+  async function cerrarSesion() {
+
+    await supabaseClient.auth.signOut();
+
+    mostrarLogin();
+  }
+
+
+  async function comprobarSesionInicial() {
+
+    const {
+      data: { session }
+    } = await supabaseClient.auth.getSession();
+
+
+    if (session) {
+
+      await comprobarAdministrador();
+
+    } else {
+
+      mostrarLogin();
+
+    }
+  }
+
+
+  comprobarSesionInicial();
+
+</script>
+
+</body>
+  </html>
