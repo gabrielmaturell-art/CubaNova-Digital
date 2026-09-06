@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CUBANOVA DIGITAL</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f3ea;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 18px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 18px;
+      font-size: 15px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      min-height: 75vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 50px 20px;
+      background: linear-gradient(135deg, #f5d76e, #f08a5d);
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 22px;
+      max-width: 700px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 13px 24px;
+      background: #111;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 65px 7%;
+    }
+
+    section h2 {
+      text-align: center;
+      font-size: 34px;
+      margin-bottom: 35px;
+    }
+
+    .intro {
+      text-align: center;
+      max-width: 800px;
+      margin: auto;
+      font-size: 18px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 26px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .creator {
+      text-align: center;
+      background: #eee6d5;
+    }
+
+    .creator p {
+      max-width: 700px;
+      margin: 10px auto;
+    }
+
+    .contact {
+      text-align: center;
+    }
+
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
+
+    @media (max-width: 700px) {
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .hero p {
+        font-size: 18px;
+      }
+
+      header {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      nav a {
+        margin: 5px;
+        display: inline-block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">CUBANOVA DIGITAL</div>
+
+  <nav>
+    <a href="#inicio">Inicio</a>
+    <a href="#tienda">Tienda</a>
+    <a href="#consultas">Consultas</a>
+    <a href="#recetas">Recetas</a>
+    <a href="#contacto">Contacto</a>
+    <a href="#admin">Admin</a>
+  </nav>
+</header>
+
+<section class="hero" id="inicio">
+  <h1>CUBANOVA DIGITAL</h1>
+  <p>El Caribe en tus manos.</p>
+  <p>Conocimiento, tradición y sabor para el mundo.</p>
+
+  <a class="btn" href="#tienda">Explorar</a>
+</section>
+
+<section>
+  <h2>Bienvenido</h2>
+
+  <p class="intro">
+    CUBANOVA DIGITAL es una plataforma dedicada a compartir
+    conocimiento, cultura, tradición y sabor cubano y caribeño
+    a través de productos digitales, recetas y servicios.
+  </p>
+</section>
+
+<section id="tienda">
+  <h2>Productos Digitales</h2>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>Ebooks</h3>
+      <p>Libros digitales sobre cultura, conocimiento y tradición.</p>
+      <div class="price">Próximamente</div>
+    </div>
+
+    <div class="card">
+      <h3>Guías Digitales</h3>
+      <p>Material práctico para aprender y descubrir nuevos conocimientos.</p>
+      <div class="price">Próximamente</div>
+    </div>
+
+    <div class="card">
+      <h3>Plantillas</h3>
+      <p>Recursos digitales listos para descargar y utilizar.</p>
+      <div class="price">Próximamente</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="consultas">
+  <h2>Consultas Espirituales</h2>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>Consulta Inicial</h3>
+      <p>Orientación espiritual inicial.</p>
+      <div class="price">$19</div>
+    </div>
+
+    <div class="card">
+      <h3>Consulta Personal</h3>
+      <p>Una consulta más personalizada y detallada.</p>
+      <div class="price">$35</div>
+    </div>
+
+    <div class="card">
+      <h3>Consulta Profunda</h3>
+      <p>Sesión espiritual de mayor profundidad.</p>
+      <div class="price">$59</div>
+    </div>
+
+    <div class="card">
+      <h3>Consulta Completa</h3>
+      <p>Servicio integral de orientación espiritual.</p>
+      <div class="price">$95</div>
+    </div>
+
+    <div class="card">
+      <h3>Consulta Especial</h3>
+      <p>Servicio personalizado según las necesidades de cada persona.</p>
+      <div class="price">Desde $120</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="recetas">
+  <h2>Recetas Cubanas</h2>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>Recetas Tradicionales</h3>
+      <p>Descubre sabores y preparaciones tradicionales de Cuba.</p>
+    </div>
+
+    <div class="card">
+      <h3>Recetas Gratis</h3>
+      <p>Contenido gratuito para comenzar a disfrutar de nuestra cocina.</p>
+    </div>
+
+    <div class="card">
+      <h3>Ebooks de Cocina</h3>
+      <p>Colecciones digitales de recetas y sabores cubanos.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="creator">
+  <h2>Sobre el Creador</h2>
+
+  <h3>José Gabriel Maturell Figueredo</h3>
+
+  <p>
+    Creador de CUBANOVA DIGITAL, una plataforma que busca llevar
+    conocimiento, tradición, cultura y sabor del Caribe al mundo.
+  </p>
+</section>
+
+<section class="contact" id="contacto">
+  <h2>Contacto</h2>
+
+  <p>¿Tienes alguna pregunta? Estamos disponibles por WhatsApp.</p>
+
+  <a class="btn" href="https://wa.me/5356653035" target="_blank">
+    Contactar por WhatsApp
+  </a>
+</section>
+
+<section id="admin">
+  <h2>Área Administrativa</h2>
+
+  <p class="intro">
+    Panel privado para gestionar productos, precios, consultas,
+    recetas, clientes y contenido de CUBANOVA DIGITAL.
+  </p>
+
+  <a class="btn" href="#">
+    Acceso Admin
+  </a>
+</section>
+
+<footer>
+  <p>© 2026 CUBANOVA DIGITAL</p>
+  <p>El Caribe en tus manos.</p>
+</footer>
+
+</body>
+  </html>
