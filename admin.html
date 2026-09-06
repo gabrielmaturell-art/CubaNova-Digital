@@ -142,7 +142,13 @@
     <button onclick="iniciarSesion()">
       Entrar al panel
     </button>
-
+<button
+  type="button"
+  onclick="recuperarContrasena()"
+  style="background:#666;"
+>
+  Olvidé mi contraseña
+</button>
     <div id="loginMessage"></div>
 
   </section>
@@ -344,7 +350,49 @@
     mostrarLogin();
   }
 
+async function recuperarContrasena() {
 
+  const email =
+    document.getElementById("email").value.trim();
+
+  const message =
+    document.getElementById("loginMessage");
+
+  if (!email) {
+
+    message.textContent =
+      "Escribe primero tu correo electrónico.";
+
+    message.className = "error";
+
+    return;
+  }
+
+  const { error } =
+    await supabaseClient.auth.resetPasswordForEmail(
+      email,
+      {
+        redirectTo:
+          "https://gabrielmaturell-art.github.io/CubaNova-Digital/admin.html"
+      }
+    );
+
+  if (error) {
+
+    message.textContent =
+      "No se pudo enviar el correo: " +
+      error.message;
+
+    message.className = "error";
+
+    return;
+  }
+
+  message.textContent =
+    "Te enviamos un correo para restablecer tu contraseña.";
+
+  message.className = "success";
+  }
   async function comprobarSesionInicial() {
 
     const {
