@@ -309,27 +309,61 @@
 </section>
 
 <section id="registro">
+
   <h2>Regístrate en CUBANOVA DIGITAL</h2>
 
   <div class="register">
 
-    <input type="text" id="nombre" placeholder="Nombre" required>
+    <input
+      type="text"
+      id="nombre"
+      placeholder="Nombre"
+      autocomplete="given-name"
+    >
 
-    <input type="text" id="apellido" placeholder="Apellido" required>
+    <input
+      type="text"
+      id="apellido"
+      placeholder="Apellido"
+      autocomplete="family-name"
+    >
 
-    <input type="tel" id="telefono" placeholder="Teléfono">
+    <input
+      type="tel"
+      id="telefono"
+      placeholder="Teléfono"
+      autocomplete="tel"
+    >
 
-    <input type="email" id="correo" placeholder="Correo electrónico" required>
+    <input
+      type="email"
+      id="correo"
+      placeholder="Correo electrónico"
+      autocomplete="email"
+    >
 
- <button
-  class="btn"
-  onclick="registrarCliente()"
+    <input
+      type="password"
+      id="password"
+      placeholder="Contraseña"
+      autocomplete="new-password"
+    >
 
-    <div id="mensajeRegistro"></div>
+    <button
+      class="btn"
+      onclick="registrarCliente()"
+    >
+      Crear registro
+    </button>
+
+    <div
+      id="mensajeRegistro"
+      class="mensaje"
+    ></div>
 
   </div>
-</section>
 
+</section>
 <section class="creator">
   <h2>Sobre el Creador</h2>
 
