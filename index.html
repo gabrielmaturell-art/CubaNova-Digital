@@ -383,85 +383,373 @@
   <p>El Caribe en tus manos.</p>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
+
 <script>
-  const SUPABASE_URL = "https://bxhfbzvgqgnzxxytqlbt.supabase.co";
 
-  const SUPABASE_KEY = "sb_publishable_rXERH1V4wpnZ9EXrZeEpJg_0sz4oczA";
+const SUPABASE_URL =
+  "https://bxhfbzvgqgnzxxytqlbt.supabase.co";
 
-  const supabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-  
-  async function registrarCliente() {
+const SUPABASE_KEY =
+  "PEGA_AQUI_TU_CLAVE_PUBLICABLE";
 
-    const nombre = document.getElementById("nombre").value.trim();
-    const apellido = document.getElementById("apellido").value.trim();
-    const telefono = document.getElementById("telefono").value.trim();
-    const correo = document.getElementById("correo").value.trim();
-    const mensaje = document.getElementById("mensajeRegistro");
+const supabase =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-    if (!nombre || !apellido || !correo) {
-      mensaje.textContent = "Completa nombre, apellido y correo.";
-      return;
-    }
 
-    mensaje.textContent = "Registrando...";
+async function registrarCliente() {
 
-    try {
+  const nombre =
+    document.getElementById("nombre").value.trim();
 
-      const respuesta = await fetch(
-        SUPABASE_URL + "/rest/v1/clientes",
-        {
-          method: "POST",
+  const apellido =
+    document.getElementById("apellido").value.trim();
 
-          headers: {
-            "Content-Type": "application/json",
-            "apikey": SUPABASE_KEY,
-            "Authorization": "Bearer " + SUPABASE_KEY,
-            "Prefer": "return=minimal"
-          },
+  const telefono =
+    document.getElementById("telefono").value.trim();
 
-          body: JSON.stringify({
+  const correo =
+    document.getElementById("correo").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  const mensaje =
+    document.getElementById("mensajeRegistro");
+
+
+  if (!nombre || !apellido || !correo || !password) {
+
+    mensaje.textContent =
+      "Completa nombre, apellido, correo y contraseña.";
+
+    return;
+  }
+
+
+  if (password.length < 6) {
+
+    mensaje.textContent =
+      "La contraseña debe tener al menos 6 caracteres.";
+
+    return;
+  }
+
+
+  mensaje.textContent =
+    "Creando tu cuenta...";
+
+
+  try {
+
+    const { data, error } =
+      await supabase.auth.signUp({
+
+        email: correo,
+
+        password: password,
+
+        options: {
+
+          data: {
             nombre: nombre,
             apellido: apellido,
-            telefono: telefono,
-            correo: correo
-          })
-        }
-      );
+            telefono: telefono
+          },
 
-      if (!respuesta.ok) {
-
-        const error = await respuesta.text();
-
-        if (respuesta.status === 409) {
-          mensaje.textContent = "Ese correo ya está registrado.";
-        } else {
-          mensaje.textContent = "No se pudo completar el registro.";
-          console.log(error);
+          emailRedirectTo:
+            "https://gabrielmaturell-art.github.io/CubaNova-Digital/"
         }
 
-        return;
-      }
+      });
 
-      mensaje.textContent = "¡Registro realizado correctamente!";
 
-      document.getElementById("nombre").value = "";
-      document.getElementById("apellido").value = "";
-      document.getElementById("telefono").value = "";
-      document.getElementById("correo").value = "";
-
-    } catch (error) {
+    if (error) {
 
       console.error(error);
 
       mensaje.textContent =
-        "No se pudo conectar con el servidor.";
+        "No se pudo crear la cuenta: " +
+        error.message;
+
+      return;
     }
+
+
+    if (data && data.user) {
+
+      const { error: errorCliente } =
+        await supabase
+          .from("clientes")
+          .insert({
+
+            id: data.user.id,
+            nombre: nombre,
+            apellido: apellido,
+            telefono: telefono,
+            correo: correo
+
+          });
+
+
+      if (errorCliente) {
+
+        console.log(
+          "La cuenta fue creada, pero clientes no se actualizó:",
+          errorCliente
+        );
+
+      }
+
+    }
+
+
+    mensaje.textContent =
+      "¡Cuenta creada! Revisa tu correo para confirmar la cuenta.";
+
+
+    document.getElementById("nombre").value = "";
+    document.getElementById("apellido").value = "";
+    document.getElementById("telefono").value = "";
+    document.getElementById("correo").value = "";
+    document.getElementById("password").value = "";
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    mensaje.textContent =
+      "No se pudo conectar con Supabase.";
+
   }
+
+}
+
+
+
+async function iniciarSesion() {
+
+  const correo =
+    document
+      .getElementById("loginCorreo")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("loginPassword")
+      .value;
+
+  const mensaje =
+    document.getElementById("mensajeLogin");
+
+
+  if (!correo || !password) {
+
+    mensaje.textContent =
+      "Completa correo y contraseña.";
+
+    return;
+  }
+
+
+  mensaje.textContent =
+    "Iniciando sesión...";
+
+
+  try {
+
+    const { error } =
+      await supabase.auth.signInWithPassword({
+
+        email: correo,
+        password: password
+
+      });
+
+
+    if (error) {
+
+      console.error(error);
+
+      mensaje.textContent =
+        "No se pudo iniciar sesión. Comprueba tu correo y contraseña.";
+
+      return;
+    }
+
+
+    mensaje.textContent =
+      "¡Sesión iniciada correctamente!";
+
+
+    document.getElementById("loginCorreo").value = "";
+    document.getElementById("loginPassword").value = "";
+
+
+    await actualizarCuenta();
+
+
+    document
+      .getElementById("cuenta")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    mensaje.textContent =
+      "No se pudo conectar con Supabase.";
+
+  }
+
+}
+
+
+
+async function actualizarCuenta() {
+
+  const cuentaNoSesion =
+    document.getElementById("cuentaNoSesion");
+
+  const cuentaSesion =
+    document.getElementById("cuentaSesion");
+
+
+  const { data, error } =
+    await supabase.auth.getUser();
+
+
+  if (error || !data.user) {
+
+    cuentaNoSesion.classList.remove("hidden");
+    cuentaSesion.classList.add("hidden");
+
+    return;
+  }
+
+
+  const user = data.user;
+
+  const metadata =
+    user.user_metadata || {};
+
+
+  document.getElementById(
+    "cuentaNombre"
+  ).textContent =
+    metadata.nombre || "-";
+
+
+  document.getElementById(
+    "cuentaApellido"
+  ).textContent =
+    metadata.apellido || "-";
+
+
+  document.getElementById(
+    "cuentaTelefono"
+  ).textContent =
+    metadata.telefono || "-";
+
+
+  document.getElementById(
+    "cuentaCorreo"
+  ).textContent =
+    user.email || "-";
+
+
+  cuentaNoSesion.classList.add("hidden");
+
+  cuentaSesion.classList.remove("hidden");
+
+}
+
+
+
+async function cerrarSesion() {
+
+  const mensaje =
+    document.getElementById("mensajeCuenta");
+
+
+  mensaje.textContent =
+    "Cerrando sesión...";
+
+
+  const { error } =
+    await supabase.auth.signOut();
+
+
+  if (error) {
+
+    console.error(error);
+
+    mensaje.textContent =
+      "No se pudo cerrar la sesión.";
+
+    return;
+  }
+
+
+  mensaje.textContent =
+    "Sesión cerrada correctamente.";
+
+
+  document
+    .getElementById("cuentaSesion")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("cuentaNoSesion")
+    .classList.remove("hidden");
+
+
+  document
+    .getElementById("login")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+
+
+supabase.auth.onAuthStateChange(
+  function() {
+
+    actualizarCuenta();
+
+  }
+);
+
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    actualizarCuenta();
+
+  }
+);
+
+
+function mostrarProximamente() {
+
+  alert(
+    "Estos productos estarán disponibles próximamente en CUBANOVA DIGITAL."
+  );
+
+}
+
 </script>
 
 </body>
-      </html>
+</html>
