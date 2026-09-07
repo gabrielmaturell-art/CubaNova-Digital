@@ -351,11 +351,15 @@
 
     <button
   class="btn"
-  onclick="alert(typeof registrarCliente)"
+  onclick="registrarCliente()"
 >
   Crear registro
     </button>
-
+if (!supabase) {
+  document.getElementById("mensajeRegistro").textContent =
+    "No se pudo cargar el sistema de registro. Intenta nuevamente.";
+  return;
+}
     <div
       id="mensajeRegistro"
       class="mensaje"
@@ -426,10 +430,12 @@ const SUPABASE_KEY =
   "sb_publishable_rXERH1V4wpnZ9EXrZeEpJg_0sz4oczA";
 
 const supabase =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  window.supabase
+    ? window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      )
+    : null;
 
 
 // ===============================
