@@ -382,12 +382,18 @@
   <p>© 2026 CUBANOVA DIGITAL</p>
   <p>El Caribe en tus manos.</p>
 </footer>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
 <script>
   const SUPABASE_URL = "https://bxhfbzvgqgnzxxytqlbt.supabase.co";
 
   const SUPABASE_KEY = "sb_publishable_rXERH1V4wpnZ9EXrZeEpJg_0sz4oczA";
 
+  const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+  
   async function registrarCliente() {
 
     const nombre = document.getElementById("nombre").value.trim();
