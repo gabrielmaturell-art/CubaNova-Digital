@@ -419,47 +419,93 @@ const SUPABASE_URL =
   "https://bxhfbzvgqgnzxxytqlbt.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_rXERH1V4wpnZ9EXrZeEpJg_0sz4oczA"
+  "sb_publishable_rXERH1V4wpnZ9EXrZeEpJg_0sz4oczA";
 
-let supabase = null;
+let clienteSupabase = null;
 
-if (window.supabase) {
-  supabase = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-  }
-// ===============================
+
+// =====================================
 // REGISTRO DE CLIENTE
-// ===============================
+// =====================================
 
 window.registrarCliente = async function registrarCliente() {
 
   const mensaje =
     document.getElementById("mensajeRegistro");
 
+  if (!mensaje) {
+    return;
+  }
+
   mensaje.textContent =
     "Procesando registro...";
 
+
   try {
 
+    // Comprobar que la biblioteca de Supabase cargó
+
+    if (!window.supabase) {
+
+      mensaje.textContent =
+        "No se pudo cargar el sistema de registro. Comprueba tu conexión a Internet.";
+
+      return;
+    }
+
+
+    // Crear cliente Supabase
+
+    if (!clienteSupabase) {
+
+      clienteSupabase =
+        window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_KEY
+        );
+    }
+
+
+    // Leer datos del formulario
+
     const nombre =
-      document.getElementById("nombre").value.trim();
+      document
+        .getElementById("nombre")
+        .value
+        .trim();
 
     const apellido =
-      document.getElementById("apellido").value.trim();
+      document
+        .getElementById("apellido")
+        .value
+        .trim();
 
     const telefono =
-      document.getElementById("telefono").value.trim();
+      document
+        .getElementById("telefono")
+        .value
+        .trim();
 
     const correo =
-      document.getElementById("correo").value.trim();
+      document
+        .getElementById("correo")
+        .value
+        .trim();
 
     const password =
-      document.getElementById("password").value;
+      document
+        .getElementById("password")
+        .value;
 
 
-    if (!nombre || !apellido || !correo || !password) {
+    // Validar campos
+
+    if (
+      !nombre ||
+      !apellido ||
+      !correo ||
+      !password
+    ) {
 
       mensaje.textContent =
         "Completa nombre, apellido, correo y contraseña.";
@@ -467,6 +513,8 @@ window.registrarCliente = async function registrarCliente() {
       return;
     }
 
+
+    // Validar contraseña
 
     if (password.length < 6) {
 
@@ -477,25 +525,11 @@ window.registrarCliente = async function registrarCliente() {
     }
 
 
-    if (!window.supabase) {
-
-      mensaje.textContent =
-        "No se pudo cargar el sistema de registro.";
-
-      return;
-    }
-
-
-    const clienteSupabase =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
-
-
     mensaje.textContent =
       "Creando tu cuenta...";
 
+
+    // Crear cuenta en Supabase Auth
 
     const resultado =
       await clienteSupabase.auth.signUp({
@@ -514,14 +548,20 @@ window.registrarCliente = async function registrarCliente() {
 
           emailRedirectTo:
             "https://gabrielmaturell-art.github.io/CubaNova-Digital/"
+
         }
 
       });
 
 
+    // Error de Supabase
+
     if (resultado.error) {
 
-      console.error(resultado.error);
+      console.error(
+        "Error de registro:",
+        resultado.error
+      );
 
       mensaje.textContent =
         "No se pudo crear la cuenta: " +
@@ -531,9 +571,14 @@ window.registrarCliente = async function registrarCliente() {
     }
 
 
-    if (resultado.data.user) {
+    // Guardar datos del cliente
 
-      const cliente =
+    if (
+      resultado.data &&
+      resultado.data.user
+    ) {
+
+      const usuario =
         resultado.data.user;
 
 
@@ -542,10 +587,14 @@ window.registrarCliente = async function registrarCliente() {
           .from("clientes")
           .insert({
 
-            id: cliente.id,
+            id: usuario.id,
+
             nombre: nombre,
+
             apellido: apellido,
+
             telefono: telefono,
+
             correo: correo
 
           });
@@ -558,14 +607,25 @@ window.registrarCliente = async function registrarCliente() {
           registroCliente.error
         );
 
+        // La cuenta Auth sí fue creada,
+        // aunque haya fallado la tabla clientes.
+
+        mensaje.textContent =
+          "La cuenta fue creada, pero hubo un problema guardando tus datos.";
+
+        return;
       }
 
     }
 
 
+    // ÉXITO
+
     mensaje.textContent =
       "¡Cuenta creada correctamente! Revisa tu correo para confirmar la cuenta.";
 
+
+    // Limpiar formulario
 
     document.getElementById("nombre").value = "";
     document.getElementById("apellido").value = "";
@@ -576,7 +636,10 @@ window.registrarCliente = async function registrarCliente() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "Error inesperado:",
+      error
+    );
 
     mensaje.textContent =
       "Ocurrió un error al crear la cuenta: " +
@@ -584,12 +647,12 @@ window.registrarCliente = async function registrarCliente() {
 
   }
 
-  }
+};
 
 
-// ===============================
+// =====================================
 // INICIO DE SESIÓN
-// ===============================
+// =====================================
 
 async function iniciarSesion() {
 
@@ -623,10 +686,29 @@ async function iniciarSesion() {
 
   try {
 
+    if (!clienteSupabase) {
+
+      if (!window.supabase) {
+
+        mensaje.textContent =
+          "No se pudo cargar el sistema.";
+
+        return;
+      }
+
+      clienteSupabase =
+        window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_KEY
+        );
+    }
+
+
     const resultado =
-      await supabase.auth.signInWithPassword({
+      await clienteSupabase.auth.signInWithPassword({
 
         email: correo,
+
         password: password
 
       });
@@ -654,13 +736,6 @@ async function iniciarSesion() {
     await actualizarCuenta();
 
 
-    document
-      .getElementById("cuenta")
-      .scrollIntoView({
-        behavior: "smooth"
-      });
-
-
   } catch (error) {
 
     console.error(error);
@@ -673,9 +748,9 @@ async function iniciarSesion() {
 }
 
 
-// ===============================
+// =====================================
 // ACTUALIZAR CUENTA
-// ===============================
+// =====================================
 
 async function actualizarCuenta() {
 
@@ -691,25 +766,33 @@ async function actualizarCuenta() {
   }
 
 
+  if (!clienteSupabase) {
+    return;
+  }
+
+
   try {
 
     const resultado =
-      await supabase.auth.getUser();
+      await clienteSupabase.auth.getUser();
 
 
-    const data = resultado.data;
+    const data =
+      resultado.data;
 
 
     if (!data || !data.user) {
 
       cuentaNoSesion.classList.remove("hidden");
+
       cuentaSesion.classList.add("hidden");
 
       return;
     }
 
 
-    const user = data.user;
+    const user =
+      data.user;
 
     const metadata =
       user.user_metadata || {};
@@ -762,9 +845,9 @@ async function actualizarCuenta() {
 }
 
 
-// ===============================
+// =====================================
 // CERRAR SESIÓN
-// ===============================
+// =====================================
 
 async function cerrarSesion() {
 
@@ -780,8 +863,13 @@ async function cerrarSesion() {
   }
 
 
+  if (!clienteSupabase) {
+    return;
+  }
+
+
   const resultado =
-    await supabase.auth.signOut();
+    await clienteSupabase.auth.signOut();
 
 
   if (resultado.error) {
@@ -821,40 +909,57 @@ async function cerrarSesion() {
   if (cuentaNoSesion)
     cuentaNoSesion.classList.remove("hidden");
 
-
 }
 
 
-// ===============================
-// SESIÓN AUTOMÁTICA
-// ===============================
-
-supabase.auth.onAuthStateChange(
-  function() {
-
-    actualizarCuenta();
-
-  }
-);
-
-
-// ===============================
-// AL CARGAR LA PÁGINA
-// ===============================
+// =====================================
+// INICIALIZACIÓN SEGURA
+// =====================================
 
 document.addEventListener(
   "DOMContentLoaded",
   function() {
 
-    actualizarCuenta();
+    try {
+
+      if (window.supabase) {
+
+        clienteSupabase =
+          window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+          );
+
+
+        clienteSupabase.auth.onAuthStateChange(
+          function() {
+
+            actualizarCuenta();
+
+          }
+        );
+
+
+        actualizarCuenta();
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "Error inicializando Supabase:",
+        error
+      );
+
+    }
 
   }
 );
 
 
-// ===============================
+// =====================================
 // PRODUCTOS PRÓXIMAMENTE
-// ===============================
+// =====================================
 
 function mostrarProximamente() {
 
@@ -864,7 +969,7 @@ function mostrarProximamente() {
 
 }
 
-  </script>
+</script>
 
 
 </body>
