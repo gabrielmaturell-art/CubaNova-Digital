@@ -867,7 +867,116 @@ function mostrarProximamente() {
 
   </script>
 
+<script>
 
+window.registrarCliente = async function () {
+
+  const mensaje =
+    document.getElementById("mensajeRegistro");
+
+  mensaje.textContent = "Procesando registro...";
+
+  const nombre =
+    document.getElementById("nombre").value.trim();
+
+  const apellido =
+    document.getElementById("apellido").value.trim();
+
+  const telefono =
+    document.getElementById("telefono").value.trim();
+
+  const correo =
+    document.getElementById("correo").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+
+  if (!nombre || !apellido || !correo || !password) {
+
+    mensaje.textContent =
+      "Completa nombre, apellido, correo y contraseña.";
+
+    return;
+  }
+
+
+  if (password.length < 6) {
+
+    mensaje.textContent =
+      "La contraseña debe tener al menos 6 caracteres.";
+
+    return;
+  }
+
+
+  try {
+
+    const cliente =
+      window.supabase.createClient(
+        "https://bxhfbzvgqgnzxxytqlbt.supabase.co",
+        SUPABASE_KEY
+      );
+
+
+    mensaje.textContent =
+      "Creando tu cuenta...";
+
+
+    const resultado =
+      await cliente.auth.signUp({
+
+        email: correo,
+
+        password: password,
+
+        options: {
+
+          data: {
+            nombre: nombre,
+            apellido: apellido,
+            telefono: telefono
+          },
+
+          emailRedirectTo:
+            "https://gabrielmaturell-art.github.io/CubaNova-Digital/"
+        }
+
+      });
+
+
+    if (resultado.error) {
+
+      mensaje.textContent =
+        "No se pudo crear la cuenta: " +
+        resultado.error.message;
+
+      return;
+    }
+
+
+    mensaje.textContent =
+      "¡Cuenta creada correctamente! Revisa tu correo para confirmar la cuenta.";
+
+    document.getElementById("nombre").value = "";
+    document.getElementById("apellido").value = "";
+    document.getElementById("telefono").value = "";
+    document.getElementById("correo").value = "";
+    document.getElementById("password").value = "";
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    mensaje.textContent =
+      "Error: " + error.message;
+
+  }
+
+};
+
+</script>
 
 
 </body>
