@@ -425,22 +425,23 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_rXERH1V4wpnZ9EXrZeEpJg_0sz4oczA";
 
-const supabase =
-  window.supabase
-    ? window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      )
-    : null;
-
-
+window.registrarCliente = function() {
+  alert("¡EL BOTÓN YA ESTÁ FUNCIONANDO!");
+};
 // ===============================
 // REGISTRO DE CLIENTE
 // ===============================
 
 async function registrarCliente() {
 
+  const supabase =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+  
   const nombre =
+    
     document.getElementById("nombre").value.trim();
 
   const apellido =
