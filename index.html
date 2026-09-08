@@ -425,7 +425,11 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_rXERH1V4wpnZ9EXrZeEpJg_0sz4oczA";
 
-window.registrarCliente = ();
+const supabase =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 // ===============================
 // REGISTRO DE CLIENTE
 // ===============================
