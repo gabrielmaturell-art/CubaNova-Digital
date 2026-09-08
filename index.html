@@ -425,67 +425,77 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_rXERH1V4wpnZ9EXrZeEpJg_0sz4oczA";
 
-window.registrarCliente = function() {
-  alert("¡EL BOTÓN YA ESTÁ FUNCIONANDO!");
-};
+window.registrarCliente = ();
 // ===============================
 // REGISTRO DE CLIENTE
 // ===============================
 
 async function registrarCliente() {
 
-  const supabase =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-  
-  const nombre =
-    
-    document.getElementById("nombre").value.trim();
-
-  const apellido =
-    document.getElementById("apellido").value.trim();
-
-  const telefono =
-    document.getElementById("telefono").value.trim();
-
-  const correo =
-    document.getElementById("correo").value.trim();
-
-  const password =
-    document.getElementById("password").value;
-
   const mensaje =
     document.getElementById("mensajeRegistro");
 
-
-  if (!nombre || !apellido || !correo || !password) {
-
-    mensaje.textContent =
-      "Completa nombre, apellido, correo y contraseña.";
-
-    return;
-  }
-
-
-  if (password.length < 6) {
-
-    mensaje.textContent =
-      "La contraseña debe tener al menos 6 caracteres.";
-
-    return;
-  }
-
-
   mensaje.textContent =
-    "Creando tu cuenta...";
-
+    "Procesando registro...";
 
   try {
 
+    const nombre =
+      document.getElementById("nombre").value.trim();
+
+    const apellido =
+      document.getElementById("apellido").value.trim();
+
+    const telefono =
+      document.getElementById("telefono").value.trim();
+
+    const correo =
+      document.getElementById("correo").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+
+    if (!nombre || !apellido || !correo || !password) {
+
+      mensaje.textContent =
+        "Completa nombre, apellido, correo y contraseña.";
+
+      return;
+    }
+
+
+    if (password.length < 6) {
+
+      mensaje.textContent =
+        "La contraseña debe tener al menos 6 caracteres.";
+
+      return;
+    }
+
+
+    if (!window.supabase) {
+
+      mensaje.textContent =
+        "No se pudo cargar el sistema de registro.";
+
+      return;
+    }
+
+
+    const clienteSupabase =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    mensaje.textContent =
+      "Creando tu cuenta...";
+
+
     const resultado =
-      await supabase.auth.signUp({
+      await clienteSupabase.auth.signUp({
 
         email: correo,
 
@@ -506,30 +516,30 @@ async function registrarCliente() {
       });
 
 
-    const data = resultado.data;
-    const error = resultado.error;
+    if (resultado.error) {
 
-
-    if (error) {
-
-      console.error(error);
+      console.error(resultado.error);
 
       mensaje.textContent =
         "No se pudo crear la cuenta: " +
-        error.message;
+        resultado.error.message;
 
       return;
     }
 
 
-    if (data && data.user) {
+    if (resultado.data.user) {
 
-      const resultadoCliente =
-        await supabase
+      const cliente =
+        resultado.data.user;
+
+
+      const registroCliente =
+        await clienteSupabase
           .from("clientes")
           .insert({
 
-            id: data.user.id,
+            id: cliente.id,
             nombre: nombre,
             apellido: apellido,
             telefono: telefono,
@@ -538,11 +548,11 @@ async function registrarCliente() {
           });
 
 
-      if (resultadoCliente.error) {
+      if (registroCliente.error) {
 
         console.error(
           "Error guardando cliente:",
-          resultadoCliente.error
+          registroCliente.error
         );
 
       }
@@ -551,7 +561,7 @@ async function registrarCliente() {
 
 
     mensaje.textContent =
-      "¡Cuenta creada! Revisa tu correo para confirmar la cuenta.";
+      "¡Cuenta creada correctamente! Revisa tu correo para confirmar la cuenta.";
 
 
     document.getElementById("nombre").value = "";
@@ -566,11 +576,12 @@ async function registrarCliente() {
     console.error(error);
 
     mensaje.textContent =
-      "No se pudo conectar con Supabase.";
+      "Ocurrió un error al crear la cuenta: " +
+      error.message;
 
   }
 
-}
+  }
 
 
 // ===============================
