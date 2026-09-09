@@ -158,7 +158,11 @@
       font-weight: bold;
       text-align: center;
     }
-
+    
+.hidden {
+  display: none !important;
+    }
+    
     footer {
       background: #111;
       color: white;
@@ -199,6 +203,8 @@
     <a href="#consultas">Consultas</a>
     <a href="#recetas">Recetas</a>
     <a href="#registro">Registro</a>
+    <a href="#login">Iniciar sesión</a>
+    <a href="#cuenta">Mi cuenta</a>
     <a href="#contacto">Contacto</a>
   </nav>
 </header>
@@ -360,10 +366,115 @@
   </div>
 
 </section>
+
+<section id="login">
+
+  <h2>Iniciar sesión</h2>
+
+  <div class="register">
+
+    <input
+      type="email"
+      id="loginCorreo"
+      placeholder="Correo electrónico"
+      autocomplete="email"
+    >
+
+    <input
+      type="password"
+      id="loginPassword"
+      placeholder="Contraseña"
+      autocomplete="current-password"
+    >
+
+    <button
+      type="button"
+      class="btn"
+      onclick="iniciarSesion()"
+    >
+      Iniciar sesión
+    </button>
+
+    <div
+      id="mensajeLogin"
+      class="mensaje"
+    ></div>
+
+  </div>
+
+</section>
+
+
+<section id="cuenta">
+
+  <h2>Mi cuenta</h2>
+
+  <div
+    id="cuentaNoSesion"
+    class="register"
+  >
+
+    <p style="text-align:center;">
+      No has iniciado sesión.
+    </p>
+
+    <p style="text-align:center; margin-top:10px;">
+      Utiliza el formulario de arriba para entrar a tu cuenta.
+    </p>
+
+  </div>
+
+
+  <div
+    id="cuentaSesion"
+    class="register hidden"
+  >
+
+    <h3 style="text-align:center; margin-bottom:20px;">
+      Bienvenido a CUBANOVA DIGITAL
+    </h3>
+
+    <p>
+      <strong>Nombre:</strong>
+      <span id="cuentaNombre">-</span>
+    </p>
+
+    <p>
+      <strong>Apellido:</strong>
+      <span id="cuentaApellido">-</span>
+    </p>
+
+    <p>
+      <strong>Teléfono:</strong>
+      <span id="cuentaTelefono">-</span>
+    </p>
+
+    <p>
+      <strong>Correo:</strong>
+      <span id="cuentaCorreo">-</span>
+    </p>
+
+    <button
+      type="button"
+      class="btn"
+      onclick="cerrarSesion()"
+    >
+      Cerrar sesión
+    </button>
+
+    <div
+      id="mensajeCuenta"
+      class="mensaje"
+    ></div>
+
+  </div>
+
+</section>
+  
 <section class="creator">
   <h2>Sobre el Creador</h2>
 
-  <h3>José Gabriel Maturell Figueredo</h3>
+  <h3>JGMF</h3>
 
   <p>
     Creador de CUBANOVA DIGITAL, una plataforma que busca llevar
@@ -372,7 +483,7 @@
 </section>
 
 <section class="contact" id="contacto">
-  <h2>Contacto</h2>
+  
 
 <h2>Contacto</h2><p>Estamos disponibles para atender tus dudas, quejas, sugerencias y solicitudes.</p><div class="cards">  <div class="card">
     <h3>💬 Dudas</h3>
