@@ -864,96 +864,94 @@ async function iniciarSesion() {
 // =====================================
 
 async function actualizarCuenta() {
+  const cliente = obtenerClienteSupabase();
 
-  const cuentaNoSesion =
-    document.getElementById("cuentaNoSesion");
+  const registro = document.getElementById("registro");
+  const login = document.getElementById("login");
+  const areaCliente = document.getElementById("areaCliente");
 
-  const cuentaSesion =
-    document.getElementById("cuentaSesion");
+  const menuRegistro = document.getElementById("menuRegistro");
+  const menuLogin = document.getElementById("menuLogin");
+  const menuCliente = document.getElementById("menuCliente");
 
-
-  if (!cuentaNoSesion || !cuentaSesion) {
+  if (!cliente || !registro || !login || !areaCliente) {
+    console.error("No se encontraron los elementos principales de la cuenta.");
     return;
   }
-
-
-  if (!clienteSupabase) {
-    return;
-  }
-
 
   try {
+    const resultado = await cliente.auth.getUser();
 
-    const resultado =
-      await clienteSupabase.auth.getUser();
+    const usuario =
+      resultado.data && resultado.data.user
+        ? resultado.data.user
+        : null;
 
+    if (usuario) {
+      const metadata = usuario.user_metadata || {};
+      const nombre = metadata.nombre || "cliente";
 
-    const data =
-      resultado.data;
+      const dashboardNombre =
+        document.getElementById("clienteNombreDashboard");
 
+      const dashboardCorreo =
+        document.getElementById("clienteCorreoDashboard");
 
-    if (!data || !data.user) {
+      if (dashboardNombre) {
+        dashboardNombre.textContent = nombre;
+      }
 
-      cuentaNoSesion.classList.remove("hidden");
+      if (dashboardCorreo) {
+        dashboardCorreo.textContent = usuario.email || "-";
+      }
 
-      cuentaSesion.classList.add("hidden");
+      registro.classList.add("hidden");
+      login.classList.add("hidden");
+      areaCliente.classList.remove("hidden");
 
-      return;
+      if (menuRegistro) {
+        menuRegistro.classList.add("hidden");
+      }
+
+      if (menuLogin) {
+        menuLogin.classList.add("hidden");
+      }
+
+      if (menuCliente) {
+        menuCliente.classList.remove("hidden");
+      }
+
+      registro.style.display = "none";
+      login.style.display = "none";
+      areaCliente.style.display = "";
+
+    } else {
+
+      registro.classList.remove("hidden");
+      login.classList.remove("hidden");
+      areaCliente.classList.add("hidden");
+
+      if (menuRegistro) {
+        menuRegistro.classList.remove("hidden");
+      }
+
+      if (menuLogin) {
+        menuLogin.classList.remove("hidden");
+      }
+
+      if (menuCliente) {
+        menuCliente.classList.add("hidden");
+      }
+
+      registro.style.display = "";
+      login.style.display = "";
+      areaCliente.style.display = "none";
     }
 
-
-    const user =
-      data.user;
-
-    const metadata =
-      user.user_metadata || {};
-
-
-    const cuentaNombre =
-      document.getElementById("cuentaNombre");
-
-    const cuentaApellido =
-      document.getElementById("cuentaApellido");
-
-    const cuentaTelefono =
-      document.getElementById("cuentaTelefono");
-
-    const cuentaCorreo =
-      document.getElementById("cuentaCorreo");
-
-
-    if (cuentaNombre)
-      cuentaNombre.textContent =
-        metadata.nombre || "-";
-
-
-    if (cuentaApellido)
-      cuentaApellido.textContent =
-        metadata.apellido || "-";
-
-
-    if (cuentaTelefono)
-      cuentaTelefono.textContent =
-        metadata.telefono || "-";
-
-
-    if (cuentaCorreo)
-      cuentaCorreo.textContent =
-        user.email || "-";
-
-
-    cuentaNoSesion.classList.add("hidden");
-
-    cuentaSesion.classList.remove("hidden");
-
-
   } catch (error) {
-
-    console.error(error);
-
+    console.error("Error actualizando la cuenta:", error);
   }
-
-}
+  }
 
 
 // =====================================
