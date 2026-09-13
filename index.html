@@ -779,70 +779,45 @@ window.registrarCliente = async function registrarCliente() {
 // =====================================
 // INICIO DE SESIÓN
 // =====================================
-
 async function iniciarSesion() {
+  const cliente = obtenerClienteSupabase();
 
   const correo =
-    document
-      .getElementById("loginCorreo")
-      .value
-      .trim();
+    document.getElementById("loginCorreo").value.trim();
 
   const password =
-    document
-      .getElementById("loginPassword")
-      .value;
+    document.getElementById("loginPassword").value;
 
   const mensaje =
     document.getElementById("mensajeLogin");
 
-
-  if (!correo || !password) {
-
+  if (!cliente) {
     mensaje.textContent =
-      "Completa correo y contraseña.";
-
+      "No se pudo cargar el sistema de inicio de sesión.";
     return;
   }
 
+  if (!correo || !password) {
+    mensaje.textContent =
+      "Completa correo y contraseña.";
+    return;
+  }
 
   mensaje.textContent =
     "Iniciando sesión...";
 
-
   try {
-
-    if (!clienteSupabase) {
-
-      if (!window.supabase) {
-
-        mensaje.textContent =
-          "No se pudo cargar el sistema.";
-
-        return;
-      }
-
-      clienteSupabase =
-        window.supabase.createClient(
-          SUPABASE_URL,
-          SUPABASE_KEY
-        );
-    }
-
-
     const resultado =
-      await clienteSupabase.auth.signInWithPassword({
-
+      await cliente.auth.signInWithPassword({
         email: correo,
-
         password: password
-
       });
 
-
     if (resultado.error) {
-
-      console.error(resultado.error);
+      console.error(
+        "Error de inicio de sesión:",
+        resultado.error
+      );
 
       mensaje.textContent =
         "No se pudo iniciar sesión. Comprueba tu correo y contraseña.";
@@ -850,29 +825,44 @@ async function iniciarSesion() {
       return;
     }
 
-
     mensaje.textContent =
       "¡Sesión iniciada correctamente!";
-
 
     document.getElementById("loginCorreo").value = "";
     document.getElementById("loginPassword").value = "";
 
+    try {
+      await actualizarCuenta();
+    } catch (errorCuenta) {
+      console.error(
+        "Error actualizando la interfaz de Mi CUBANOVA:",
+        errorCuenta
+      );
 
-    await actualizarCuenta();
+      mensaje.textContent =
+        "Sesión iniciada correctamente, pero no se pudo actualizar la pantalla.";
+      return;
+    }
 
+    const areaCliente =
+      document.getElementById("areaCliente");
+
+    if (areaCliente) {
+      areaCliente.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
 
   } catch (error) {
-
-    console.error(error);
+    console.error(
+      "Error durante el inicio de sesión:",
+      error
+    );
 
     mensaje.textContent =
-      "No se pudo conectar con Supabase.";
-
+      "No se pudo iniciar sesión. Comprueba tu conexión e inténtalo nuevamente.";
   }
-
-}
-
+  }
 
 // =====================================
 // ACTUALIZAR CUENTA
