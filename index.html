@@ -534,7 +534,22 @@ const SUPABASE_KEY =
 
 let clienteSupabase = null;
 
+function obtenerClienteSupabase() {
+  if (!clienteSupabase) {
+    if (!window.supabase) {
+      console.error("Supabase no está cargado.");
+      return null;
+    }
 
+    clienteSupabase =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+  }
+
+  return clienteSupabase;
+  }
 // =====================================
 // REGISTRO DE CLIENTE
 // =====================================
