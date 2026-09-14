@@ -25,7 +25,7 @@
 
     header {
       background: #111;
-      color: white;
+      color: #fff;
       padding: 18px 6%;
       display: flex;
       justify-content: space-between;
@@ -40,11 +40,22 @@
       font-weight: bold;
     }
 
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
     nav a {
-      color: white;
+      color: #fff;
       text-decoration: none;
-      margin-left: 18px;
+      margin-left: 12px;
       font-size: 15px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
     }
 
     .hero {
@@ -65,20 +76,7 @@
 
     .hero p {
       font-size: 22px;
-      max-width: 700px;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 13px 24px;
-      background: #111;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
+      max-width: 750px;
     }
 
     section {
@@ -104,20 +102,95 @@
       gap: 22px;
     }
 
-    .card {
-      background: white;
+    .card,
+    .service-card,
+    .dashboard-card {
+      background: #fff;
       padding: 25px;
       border-radius: 14px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     }
 
-    .card h3 {
+    .card h3,
+    .service-card h3,
+    .dashboard-card h3 {
       margin-bottom: 10px;
     }
 
     .price {
       font-size: 26px;
       font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 13px 24px;
+      background: #111;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      opacity: 0.85;
+    }
+
+    .register {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .register input {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 16px;
+    }
+
+    .mensaje {
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .status-box {
+      max-width: 800px;
+      margin: 0 auto 25px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 20px;
+      max-width: 1050px;
+      margin: 25px auto 0;
+    }
+
+    .dashboard-card {
+      text-align: center;
+    }
+
+    .dashboard-card .btn {
       margin-top: 15px;
     }
 
@@ -135,58 +208,30 @@
       text-align: center;
     }
 
-    .register {
-      max-width: 600px;
-      margin: auto;
-      background: white;
-      padding: 30px;
-      border-radius: 14px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
-
-    .register input {
-      width: 100%;
-      padding: 13px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 7px;
-      font-size: 16px;
-    }
-
-    #mensajeRegistro {
-      margin-top: 15px;
-      font-weight: bold;
-      text-align: center;
-    }
-    
-.hidden {
-  display: none !important;
-    }
-    
     footer {
       background: #111;
-      color: white;
+      color: #fff;
       text-align: center;
       padding: 25px;
     }
 
-    @media (max-width: 700px) {
-      .hero h1 {
-        font-size: 38px;
-      }
-
-      .hero p {
-        font-size: 18px;
-      }
-
+    @media (max-width: 800px) {
       header {
         flex-direction: column;
         gap: 12px;
       }
 
       nav a {
-        margin: 5px;
+        margin: 4px;
         display: inline-block;
+      }
+
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .hero p {
+        font-size: 18px;
       }
     }
   </style>
@@ -200,22 +245,45 @@
   <nav>
     <a href="#inicio">Inicio</a>
     <a href="#tienda">Tienda</a>
+    <a href="#servicios">Servicios</a>
     <a href="#consultas">Consultas</a>
     <a href="#recetas">Recetas</a>
-    <a href="#registro">Registro</a>
-    <a href="#login">Iniciar sesión</a>
-    <a href="#cuenta">Mi cuenta</a>
+
+    <a href="#registro" id="menuRegistro">Registro</a>
+
+    <a href="#login" id="menuLogin">Iniciar sesión</a>
+
+    <a href="#areaCliente" id="menuCliente" class="hidden">
+      Mi CUBANOVA
+    </a>
+
     <a href="#contacto">Contacto</a>
   </nav>
 </header>
 
+
+<!-- =========================
+     INICIO
+========================= -->
+
 <section class="hero" id="inicio">
   <h1>CUBANOVA DIGITAL</h1>
-  <p>El Caribe en tus manos.</p>
-  <p>Conocimiento, tradición y sabor para el mundo.</p>
 
-  <a class="btn" href="#tienda">Explorar</a>
+  <p>El Caribe en tus manos.</p>
+
+  <p>
+    Conocimiento, tradición y sabor para el mundo.
+  </p>
+
+  <a class="btn" href="#tienda">
+    Explorar
+  </a>
 </section>
+
+
+<!-- =========================
+     BIENVENIDO
+========================= -->
 
 <section>
   <h2>Bienvenido</h2>
@@ -227,6 +295,11 @@
   </p>
 </section>
 
+
+<!-- =========================
+     TIENDA
+========================= -->
+
 <section id="tienda">
   <h2>Productos Digitales</h2>
 
@@ -234,24 +307,136 @@
 
     <div class="card">
       <h3>Ebooks</h3>
-      <p>Libros digitales sobre cultura, conocimiento y tradición.</p>
-      <div class="price">Disponible próximamente</div>
+
+      <p>
+        Libros digitales sobre cultura,
+        conocimiento y tradición.
+      </p>
+
+      <div class="price">
+        Próximamente
+      </div>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="mostrarProximamente()">
+        Más información
+      </button>
     </div>
+
 
     <div class="card">
       <h3>Guías Digitales</h3>
-      <p>Material práctico para aprender y descubrir nuevos conocimientos.</p>
-      <div class="price">Disponible próximamente</div>
+
+      <p>
+        Material práctico para aprender
+        y descubrir nuevos conocimientos.
+      </p>
+
+      <div class="price">
+        Próximamente
+      </div>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="mostrarProximamente()">
+        Más información
+      </button>
     </div>
+
 
     <div class="card">
       <h3>Plantillas</h3>
-      <p>Recursos digitales listos para descargar y utilizar.</p>
-      <div class="price">Disponible próximamente</div>
+
+      <p>
+        Recursos digitales listos para
+        descargar y utilizar.
+      </p>
+
+      <div class="price">
+        Próximamente
+      </div>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="mostrarProximamente()">
+        Más información
+      </button>
     </div>
 
   </div>
 </section>
+
+
+<!-- =========================
+     SERVICIOS
+========================= -->
+
+<section id="servicios">
+  <h2>Servicios</h2>
+
+  <div class="cards">
+
+    <div class="service-card">
+      <h3>TECH</h3>
+
+      <p>
+        Servicios y orientación relacionados
+        con tecnología y soluciones digitales.
+      </p>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="solicitarServicio('TECH')">
+        Solicitar servicio
+      </button>
+    </div>
+
+
+    <div class="service-card">
+      <h3>DATA</h3>
+
+      <p>
+        Servicios relacionados con datos,
+        análisis y organización de información.
+      </p>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="solicitarServicio('DATA')">
+        Solicitar servicio
+      </button>
+    </div>
+
+
+    <div class="service-card">
+      <h3>BUSINESS</h3>
+
+      <p>
+        Orientación para proyectos,
+        negocios y soluciones digitales.
+      </p>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="solicitarServicio('BUSINESS')">
+        Solicitar servicio
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- =========================
+     CONSULTAS
+========================= -->
 
 <section id="consultas">
   <h2>Consultas Espirituales</h2>
@@ -260,36 +445,69 @@
 
     <div class="card">
       <h3>Consulta Inicial</h3>
-      <p>Orientación espiritual inicial.</p>
+
+      <p>
+        Orientación espiritual inicial.
+      </p>
+
       <div class="price">$20</div>
     </div>
 
+
     <div class="card">
       <h3>Consulta Personal</h3>
-      <p>Una consulta más personalizada y detallada.</p>
+
+      <p>
+        Una consulta más personalizada
+        y detallada.
+      </p>
+
       <div class="price">$35</div>
     </div>
 
+
     <div class="card">
       <h3>Consulta Profunda</h3>
-      <p>Sesión espiritual de mayor profundidad.</p>
+
+      <p>
+        Sesión espiritual de mayor profundidad.
+      </p>
+
       <div class="price">$59</div>
     </div>
 
+
     <div class="card">
       <h3>Consulta Completa</h3>
-      <p>Servicio integral de orientación espiritual.</p>
+
+      <p>
+        Servicio integral de orientación espiritual.
+      </p>
+
       <div class="price">$95</div>
     </div>
 
+
     <div class="card">
       <h3>Consulta Especial</h3>
-      <p>Servicio personalizado según las necesidades de cada persona.</p>
-      <div class="price">Desde $120</div>
+
+      <p>
+        Servicio personalizado según las
+        necesidades de cada persona.
+      </p>
+
+      <div class="price">
+        Desde $120
+      </div>
     </div>
 
   </div>
 </section>
+
+
+<!-- =========================
+     RECETAS
+========================= -->
 
 <section id="recetas">
   <h2>Recetas Cubanas</h2>
@@ -298,25 +516,46 @@
 
     <div class="card">
       <h3>Recetas Tradicionales</h3>
-      <p>Descubre sabores y preparaciones tradicionales de Cuba.</p>
+
+      <p>
+        Descubre sabores y preparaciones
+        tradicionales de Cuba.
+      </p>
     </div>
+
 
     <div class="card">
       <h3>Recetas Gratis</h3>
-      <p>Contenido gratuito para comenzar a disfrutar de nuestra cocina.</p>
+
+      <p>
+        Contenido gratuito para comenzar
+        a disfrutar de nuestra cocina.
+      </p>
     </div>
+
 
     <div class="card">
       <h3>Ebooks de Cocina</h3>
-      <p>Colecciones digitales de recetas y sabores cubanos.</p>
+
+      <p>
+        Colecciones digitales de recetas
+        y sabores cubanos.
+      </p>
     </div>
 
   </div>
 </section>
 
+
+<!-- =========================
+     REGISTRO
+========================= -->
+
 <section id="registro">
 
-  <h2>Regístrate en CUBANOVA DIGITAL</h2>
+  <h2>
+    Regístrate en CUBANOVA DIGITAL
+  </h2>
 
   <div class="register">
 
@@ -354,22 +593,33 @@
       placeholder="Contraseña"
       autocomplete="new-password"
     >
-<button type="button" class="btn" onclick="window.registrarCliente()">
-  Crear registro
-</button>
-  
+
+    <button
+      type="button"
+      class="btn"
+      onclick="registrarCliente()">
+      Crear registro
+    </button>
+
     <div
       id="mensajeRegistro"
-      class="mensaje"
-    ></div>
+      class="mensaje">
+    </div>
 
   </div>
 
 </section>
 
+
+<!-- =========================
+     LOGIN
+========================= -->
+
 <section id="login">
 
-  <h2>Iniciar sesión</h2>
+  <h2>
+    Iniciar sesión
+  </h2>
 
   <div class="register">
 
@@ -390,138 +640,386 @@
     <button
       type="button"
       class="btn"
-      onclick="iniciarSesion()"
-    >
+      onclick="iniciarSesion()">
       Iniciar sesión
     </button>
 
     <div
       id="mensajeLogin"
-      class="mensaje"
-    ></div>
+      class="mensaje">
+    </div>
 
   </div>
 
 </section>
 
 
-<section id="cuenta">
+<!-- =========================
+     MI CUBANOVA
+========================= -->
 
-  <h2>Mi cuenta</h2>
+<section
+  id="areaCliente"
+  class="hidden">
 
-  <div
-    id="cuentaNoSesion"
-    class="register"
-  >
-
-    <p style="text-align:center;">
-      No has iniciado sesión.
-    </p>
-
-    <p style="text-align:center; margin-top:10px;">
-      Utiliza el formulario de arriba para entrar a tu cuenta.
-    </p>
-
-  </div>
+  <h2>
+    Mi CUBANOVA
+  </h2>
 
 
-  <div
-    id="cuentaSesion"
-    class="register hidden"
-  >
+  <div class="status-box">
 
-    <h3 style="text-align:center; margin-bottom:20px;">
-      Bienvenido a CUBANOVA DIGITAL
+    <h3>
+      Bienvenido,
+      <span id="clienteNombreDashboard">
+        cliente
+      </span>
     </h3>
 
     <p>
-      <strong>Nombre:</strong>
-      <span id="cuentaNombre">-</span>
+      Correo:
+      <span id="clienteCorreoDashboard">
+        -
+      </span>
     </p>
 
-    <p>
-      <strong>Apellido:</strong>
-      <span id="cuentaApellido">-</span>
-    </p>
-
-    <p>
-      <strong>Teléfono:</strong>
-      <span id="cuentaTelefono">-</span>
-    </p>
-
-    <p>
-      <strong>Correo:</strong>
-      <span id="cuentaCorreo">-</span>
+    <p
+      id="mensajeDashboard"
+      class="mensaje">
     </p>
 
     <button
       type="button"
       class="btn"
-      onclick="cerrarSesion()"
-    >
+      onclick="cerrarSesion()">
       Cerrar sesión
     </button>
 
-    <div
-      id="mensajeCuenta"
-      class="mensaje"
-    ></div>
+  </div>
+
+
+  <div class="dashboard-grid">
+
+    <div class="dashboard-card">
+      <h3>Perfil</h3>
+
+      <p>
+        Consulta y gestiona tus datos.
+      </p>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="abrirModuloCliente('perfil')">
+        Abrir
+      </button>
+    </div>
+
+
+    <div class="dashboard-card">
+      <h3>Servicios</h3>
+
+      <p>
+        Consulta los servicios disponibles.
+      </p>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="abrirModuloCliente('servicios')">
+        Abrir
+      </button>
+    </div>
+
+
+    <div class="dashboard-card">
+      <h3>Solicitudes</h3>
+
+      <p>
+        Consulta tus solicitudes.
+      </p>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="abrirModuloCliente('solicitudes')">
+        Abrir
+      </button>
+    </div>
+
+
+    <div class="dashboard-card">
+      <h3>Compras</h3>
+
+      <p>
+        Consulta tus compras.
+      </p>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="abrirModuloCliente('compras')">
+        Abrir
+      </button>
+    </div>
+
+
+    <div class="dashboard-card">
+      <h3>Digitales</h3>
+
+      <p>
+        Accede a tus productos digitales.
+      </p>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="abrirModuloCliente('digitales')">
+        Abrir
+      </button>
+    </div>
+
+
+    <div class="dashboard-card">
+      <h3>Citas</h3>
+
+      <p>
+        Consulta tus citas.
+      </p>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="abrirModuloCliente('citas')">
+        Abrir
+      </button>
+    </div>
+
+
+    <div class="dashboard-card">
+      <h3>Notificaciones</h3>
+
+      <p>
+        Consulta avisos de tu cuenta.
+      </p>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="abrirModuloCliente('notificaciones')">
+        Abrir
+      </button>
+    </div>
+
+
+    <div class="dashboard-card">
+      <h3>Pagos</h3>
+
+      <p>
+        Consulta información de pagos.
+      </p>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="abrirModuloCliente('pagos')">
+        Abrir
+      </button>
+    </div>
 
   </div>
 
 </section>
-  
-<section class="creator">
-  <h2>Sobre el Creador</h2>
 
-  <h3>JGMF</h3>
+
+<!-- =========================
+     CREADOR
+========================= -->
+
+<section class="creator">
+
+  <h2>
+    Sobre el Creador
+  </h2>
+
+  <h3>
+    JGMF
+  </h3>
 
   <p>
-    Creador de CUBANOVA DIGITAL, una plataforma que busca llevar
-    conocimiento, tradición, cultura y sabor del Caribe al mundo.
+    Creador de CUBANOVA DIGITAL, una plataforma
+    que busca llevar conocimiento, tradición,
+    cultura y sabor del Caribe al mundo.
   </p>
+
 </section>
 
-<section class="contact" id="contacto">
-  
 
-<h2>Contacto</h2><p>Estamos disponibles para atender tus dudas, quejas, sugerencias y solicitudes.</p><div class="cards">  <div class="card">
-    <h3>💬 Dudas</h3>
-    <p>¿Tienes alguna pregunta sobre CubaNova Digital?</p>
-    <a class="btn" href="https://wa.me/5356653035?text=Hola%20CubaNova%20Digital%2C%20tengo%20una%20duda." target="_blank">
-      Escribir por WhatsApp
-    </a>
-  </div>  <div class="card">
-    <h3>⚠️ Quejas</h3>
-    <p>Queremos conocer cualquier inconveniente para poder atenderlo.</p>
-    <a class="btn" href="https://wa.me/5356653035?text=Hola%20CubaNova%20Digital%2C%20quiero%20presentar%20una%20queja." target="_blank">
-      Presentar una queja
-    </a>
-  </div>  <div class="card">
-    <h3>💡 Sugerencias</h3>
-    <p>Tu opinión nos ayuda a mejorar CubaNova Digital.</p>
-    <a class="btn" href="https://wa.me/5356653035?text=Hola%20CubaNova%20Digital%2C%20tengo%20una%20sugerencia." target="_blank">
-      Enviar sugerencia
-    </a>
-  </div>  <div class="card">
-    <h3>📚 Ebooks y Recetas</h3>
-    <p>Información sobre nuestros ebooks, recetas y recursos digitales.</p>
-    <a class="btn" href="https://wa.me/5356487284?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20los%20ebooks%20y%20recetas%20de%20CubaNova%20Digital." target="_blank">
-      Consultar
-    </a>
-  </div>  <div class="card">
-    <h3>🔮 Consultas Espirituales</h3>
-    <p>Para información y coordinación de consultas espirituales.</p>
-    <a class="btn" href="https://wa.me/5353840367?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20las%20consultas%20espirituales." target="_blank">
-      Consultar
-    </a>
-  </div></div>
+<!-- =========================
+     CONTACTO
+========================= -->
+
+<section
+  class="contact"
+  id="contacto">
+
+  <h2>
+    Contacto
+  </h2>
+
+  <p>
+    Estamos disponibles para atender tus dudas,
+    quejas, sugerencias y solicitudes.
+  </p>
+
+
+  <div class="cards">
+
+    <!-- DUDAS -->
+
+    <div class="card">
+
+      <h3>
+        💬 Dudas
+      </h3>
+
+      <p>
+        ¿Tienes alguna pregunta sobre
+        CUBANOVA DIGITAL?
+      </p>
+
+      <a
+        class="btn"
+        href="https://wa.me/5356653035?text=Hola%20CubaNova%20Digital%2C%20tengo%20una%20duda."
+        target="_blank"
+        rel="noopener">
+        Escribir por WhatsApp
+      </a>
+
+    </div>
+
+
+    <!-- QUEJAS -->
+
+    <div class="card">
+
+      <h3>
+        ⚠️ Quejas
+      </h3>
+
+      <p>
+        Queremos conocer cualquier
+        inconveniente para poder atenderlo.
+      </p>
+
+      <a
+        class="btn"
+        href="https://wa.me/5356653035?text=Hola%20CubaNova%20Digital%2C%20quiero%20presentar%20una%20queja."
+        target="_blank"
+        rel="noopener">
+        Presentar una queja
+      </a>
+
+    </div>
+
+
+    <!-- SUGERENCIAS -->
+
+    <div class="card">
+
+      <h3>
+        💡 Sugerencias
+      </h3>
+
+      <p>
+        Tu opinión nos ayuda a mejorar
+        CUBANOVA DIGITAL.
+      </p>
+
+      <a
+        class="btn"
+        href="https://wa.me/5356653035?text=Hola%20CubaNova%20Digital%2C%20tengo%20una%20sugerencia."
+        target="_blank"
+        rel="noopener">
+        Enviar sugerencia
+      </a>
+
+    </div>
+
+
+    <!-- EBOOKS -->
+
+    <div class="card">
+
+      <h3>
+        📚 Ebooks y Recetas
+      </h3>
+
+      <p>
+        Información sobre nuestros ebooks,
+        recetas y recursos digitales.
+      </p>
+
+      <a
+        class="btn"
+        href="https://wa.me/5356487284?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20los%20ebooks%20y%20recetas%20de%20CubaNova%20Digital."
+        target="_blank"
+        rel="noopener">
+        Consultar
+      </a>
+
+    </div>
+
+
+    <!-- CONSULTAS ESPIRITUALES -->
+
+    <div class="card">
+
+      <h3>
+        🔮 Consultas Espirituales
+      </h3>
+
+      <p>
+        Para información y coordinación
+        de consultas espirituales.
+      </p>
+
+      <a
+        class="btn"
+        href="https://wa.me/5353840367?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20las%20consultas%20espirituales."
+        target="_blank"
+        rel="noopener">
+        Consultar
+      </a>
+
+    </div>
+
+  </div>
+
 </section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
-  <p>© 2026 CUBANOVA DIGITAL</p>
-  <p>El Caribe en tus manos.</p>
+
+  <p>
+    © 2026 CUBANOVA DIGITAL
+  </p>
+
+  <p>
+    El Caribe en tus manos.
+  </p>
+
 </footer>
+
+
+<!-- =========================
+     SUPABASE
+========================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -534,10 +1032,21 @@ const SUPABASE_KEY =
 
 let clienteSupabase = null;
 
+
+/* =========================
+   CREAR CLIENTE SUPABASE
+========================= */
+
 function obtenerClienteSupabase() {
+
   if (!clienteSupabase) {
+
     if (!window.supabase) {
-      console.error("Supabase no está cargado.");
+
+      console.error(
+        "Supabase no está cargado."
+      );
+
       return null;
     }
 
@@ -549,19 +1058,22 @@ function obtenerClienteSupabase() {
   }
 
   return clienteSupabase;
-  }
-// =====================================
-// REGISTRO DE CLIENTE
-// =====================================
+}
 
-window.registrarCliente = async function registrarCliente() {
+
+/* =========================
+   REGISTRO
+========================= */
+
+window.registrarCliente =
+async function registrarCliente() {
 
   const mensaje =
-    document.getElementById("mensajeRegistro");
+    document.getElementById(
+      "mensajeRegistro"
+    );
 
-  if (!mensaje) {
-    return;
-  }
+  if (!mensaje) return;
 
   mensaje.textContent =
     "Procesando registro...";
@@ -569,62 +1081,47 @@ window.registrarCliente = async function registrarCliente() {
 
   try {
 
-    // Comprobar que la biblioteca de Supabase cargó
+    const cliente =
+      obtenerClienteSupabase();
 
-    if (!window.supabase) {
+    if (!cliente) {
 
       mensaje.textContent =
-        "No se pudo cargar el sistema de registro. Comprueba tu conexión a Internet.";
+        "No se pudo cargar el sistema de registro.";
 
       return;
     }
 
 
-    // Crear cliente Supabase
-
-    if (!clienteSupabase) {
-
-      clienteSupabase =
-        window.supabase.createClient(
-          SUPABASE_URL,
-          SUPABASE_KEY
-        );
-    }
-
-
-    // Leer datos del formulario
-
     const nombre =
-      document
-        .getElementById("nombre")
-        .value
-        .trim();
+      document.getElementById(
+        "nombre"
+      ).value.trim();
+
 
     const apellido =
-      document
-        .getElementById("apellido")
-        .value
-        .trim();
+      document.getElementById(
+        "apellido"
+      ).value.trim();
+
 
     const telefono =
-      document
-        .getElementById("telefono")
-        .value
-        .trim();
+      document.getElementById(
+        "telefono"
+      ).value.trim();
+
 
     const correo =
-      document
-        .getElementById("correo")
-        .value
-        .trim();
+      document.getElementById(
+        "correo"
+      ).value.trim();
+
 
     const password =
-      document
-        .getElementById("password")
-        .value;
+      document.getElementById(
+        "password"
+      ).value;
 
-
-    // Validar campos
 
     if (
       !nombre ||
@@ -640,8 +1137,6 @@ window.registrarCliente = async function registrarCliente() {
     }
 
 
-    // Validar contraseña
-
     if (password.length < 6) {
 
       mensaje.textContent =
@@ -655,10 +1150,8 @@ window.registrarCliente = async function registrarCliente() {
       "Creando tu cuenta...";
 
 
-    // Crear cuenta en Supabase Auth
-
     const resultado =
-      await clienteSupabase.auth.signUp({
+      await cliente.auth.signUp({
 
         email: correo,
 
@@ -674,13 +1167,10 @@ window.registrarCliente = async function registrarCliente() {
 
           emailRedirectTo:
             "https://gabrielmaturell-art.github.io/CubaNova-Digital/"
-
         }
 
       });
 
-
-    // Error de Supabase
 
     if (resultado.error) {
 
@@ -697,8 +1187,6 @@ window.registrarCliente = async function registrarCliente() {
     }
 
 
-    // Guardar datos del cliente
-
     if (
       resultado.data &&
       resultado.data.user
@@ -709,18 +1197,14 @@ window.registrarCliente = async function registrarCliente() {
 
 
       const registroCliente =
-        await clienteSupabase
+        await cliente
           .from("clientes")
           .insert({
 
             id: usuario.id,
-
             nombre: nombre,
-
             apellido: apellido,
-
             telefono: telefono,
-
             correo: correo
 
           });
@@ -733,31 +1217,37 @@ window.registrarCliente = async function registrarCliente() {
           registroCliente.error
         );
 
-        // La cuenta Auth sí fue creada,
-        // aunque haya fallado la tabla clientes.
-
         mensaje.textContent =
           "La cuenta fue creada, pero hubo un problema guardando tus datos.";
 
         return;
       }
-
     }
 
-
-    // ÉXITO
 
     mensaje.textContent =
       "¡Cuenta creada correctamente! Revisa tu correo para confirmar la cuenta.";
 
 
-    // Limpiar formulario
+    document.getElementById(
+      "nombre"
+    ).value = "";
 
-    document.getElementById("nombre").value = "";
-    document.getElementById("apellido").value = "";
-    document.getElementById("telefono").value = "";
-    document.getElementById("correo").value = "";
-    document.getElementById("password").value = "";
+    document.getElementById(
+      "apellido"
+    ).value = "";
+
+    document.getElementById(
+      "telefono"
+    ).value = "";
+
+    document.getElementById(
+      "correo"
+    ).value = "";
+
+    document.getElementById(
+      "password"
+    ).value = "";
 
 
   } catch (error) {
@@ -770,50 +1260,72 @@ window.registrarCliente = async function registrarCliente() {
     mensaje.textContent =
       "Ocurrió un error al crear la cuenta: " +
       error.message;
-
   }
-
 };
 
 
-// =====================================
-// INICIO DE SESIÓN
-// =====================================
+/* =========================
+   LOGIN
+========================= */
+
 async function iniciarSesion() {
-  const cliente = obtenerClienteSupabase();
 
-  const correo =
-    document.getElementById("loginCorreo").value.trim();
-
-  const password =
-    document.getElementById("loginPassword").value;
+  const cliente =
+    obtenerClienteSupabase();
 
   const mensaje =
-    document.getElementById("mensajeLogin");
+    document.getElementById(
+      "mensajeLogin"
+    );
+
 
   if (!cliente) {
+
     mensaje.textContent =
       "No se pudo cargar el sistema de inicio de sesión.";
+
     return;
   }
 
+
+  const correo =
+    document.getElementById(
+      "loginCorreo"
+    ).value.trim();
+
+
+  const password =
+    document.getElementById(
+      "loginPassword"
+    ).value;
+
+
   if (!correo || !password) {
+
     mensaje.textContent =
       "Completa correo y contraseña.";
+
     return;
   }
+
 
   mensaje.textContent =
     "Iniciando sesión...";
 
+
   try {
+
     const resultado =
       await cliente.auth.signInWithPassword({
+
         email: correo,
         password: password
+
       });
 
+
     if (resultado.error) {
+
       console.error(
         "Error de inicio de sesión:",
         resultado.error
@@ -825,176 +1337,290 @@ async function iniciarSesion() {
       return;
     }
 
+
+    document.getElementById(
+      "loginCorreo"
+    ).value = "";
+
+    document.getElementById(
+      "loginPassword"
+    ).value = "";
+
+
     mensaje.textContent =
       "¡Sesión iniciada correctamente!";
 
-    document.getElementById("loginCorreo").value = "";
-    document.getElementById("loginPassword").value = "";
 
-    try {
-      await actualizarCuenta();
-    } catch (errorCuenta) {
-      console.error(
-        "Error actualizando la interfaz de Mi CUBANOVA:",
-        errorCuenta
-      );
+    await actualizarCuenta();
 
-      mensaje.textContent =
-        "Sesión iniciada correctamente, pero no se pudo actualizar la pantalla.";
-      return;
-    }
 
     const areaCliente =
-      document.getElementById("areaCliente");
+      document.getElementById(
+        "areaCliente"
+      );
+
 
     if (areaCliente) {
+
       areaCliente.scrollIntoView({
         behavior: "smooth"
       });
+
     }
 
+
   } catch (error) {
+
     console.error(
       "Error durante el inicio de sesión:",
       error
     );
 
     mensaje.textContent =
-      "No se pudo iniciar sesión. Comprueba tu conexión e inténtalo nuevamente.";
+      "No se pudo iniciar sesión.";
   }
-  }
+}
 
-// =====================================
-// ACTUALIZAR CUENTA
-// =====================================
+
+/* =========================
+   ACTUALIZAR CUENTA
+========================= */
 
 async function actualizarCuenta() {
-  const cliente = obtenerClienteSupabase();
 
-  const registro = document.getElementById("registro");
-  const login = document.getElementById("login");
-  const areaCliente = document.getElementById("areaCliente");
+  const cliente =
+    obtenerClienteSupabase();
 
-  const menuRegistro = document.getElementById("menuRegistro");
-  const menuLogin = document.getElementById("menuLogin");
-  const menuCliente = document.getElementById("menuCliente");
 
-  if (!cliente || !registro || !login || !areaCliente) {
-    console.error("No se encontraron los elementos principales de la cuenta.");
+  const registro =
+    document.getElementById(
+      "registro"
+    );
+
+
+  const login =
+    document.getElementById(
+      "login"
+    );
+
+
+  const areaCliente =
+    document.getElementById(
+      "areaCliente"
+    );
+
+
+  const menuRegistro =
+    document.getElementById(
+      "menuRegistro"
+    );
+
+
+  const menuLogin =
+    document.getElementById(
+      "menuLogin"
+    );
+
+
+  const menuCliente =
+    document.getElementById(
+      "menuCliente"
+    );
+
+
+  if (
+    !cliente ||
+    !registro ||
+    !login ||
+    !areaCliente
+  ) {
+
+    console.error(
+      "No se encontraron los elementos principales de la cuenta."
+    );
+
     return;
   }
 
+
   try {
-    const resultado = await cliente.auth.getUser();
+
+    const resultado =
+      await cliente.auth.getUser();
+
 
     const usuario =
-      resultado.data && resultado.data.user
+      resultado.data &&
+      resultado.data.user
         ? resultado.data.user
         : null;
 
+
     if (usuario) {
-      const metadata = usuario.user_metadata || {};
-      const nombre = metadata.nombre || "cliente";
 
-      const dashboardNombre =
-        document.getElementById("clienteNombreDashboard");
+      const metadata =
+        usuario.user_metadata || {};
 
-      const dashboardCorreo =
-        document.getElementById("clienteCorreoDashboard");
 
-      if (dashboardNombre) {
-        dashboardNombre.textContent = nombre;
+      const nombre =
+        metadata.nombre || "cliente";
+
+
+      const clienteNombreDashboard =
+        document.getElementById(
+          "clienteNombreDashboard"
+        );
+
+
+      const clienteCorreoDashboard =
+        document.getElementById(
+          "clienteCorreoDashboard"
+        );
+
+
+      if (clienteNombreDashboard) {
+
+        clienteNombreDashboard.textContent =
+          nombre;
       }
 
-      if (dashboardCorreo) {
-        dashboardCorreo.textContent = usuario.email || "-";
+
+      if (clienteCorreoDashboard) {
+
+        clienteCorreoDashboard.textContent =
+          usuario.email || "-";
       }
 
-      registro.classList.add("hidden");
-      login.classList.add("hidden");
-      areaCliente.classList.remove("hidden");
+
+      registro.classList.add(
+        "hidden"
+      );
+
+      login.classList.add(
+        "hidden"
+      );
+
+      areaCliente.classList.remove(
+        "hidden"
+      );
+
 
       if (menuRegistro) {
-        menuRegistro.classList.add("hidden");
+
+        menuRegistro.classList.add(
+          "hidden"
+        );
       }
+
 
       if (menuLogin) {
-        menuLogin.classList.add("hidden");
+
+        menuLogin.classList.add(
+          "hidden"
+        );
       }
+
 
       if (menuCliente) {
-        menuCliente.classList.remove("hidden");
+
+        menuCliente.classList.remove(
+          "hidden"
+        );
       }
 
-      registro.style.display = "none";
-      login.style.display = "none";
-      areaCliente.style.display = "";
 
     } else {
 
-      registro.classList.remove("hidden");
-      login.classList.remove("hidden");
-      areaCliente.classList.add("hidden");
+      registro.classList.remove(
+        "hidden"
+      );
+
+      login.classList.remove(
+        "hidden"
+      );
+
+      areaCliente.classList.add(
+        "hidden"
+      );
+
 
       if (menuRegistro) {
-        menuRegistro.classList.remove("hidden");
+
+        menuRegistro.classList.remove(
+          "hidden"
+        );
       }
+
 
       if (menuLogin) {
-        menuLogin.classList.remove("hidden");
+
+        menuLogin.classList.remove(
+          "hidden"
+        );
       }
+
 
       if (menuCliente) {
-        menuCliente.classList.add("hidden");
+
+        menuCliente.classList.add(
+          "hidden"
+        );
       }
 
-      registro.style.display = "";
-      login.style.display = "";
-      areaCliente.style.display = "none";
     }
 
+
   } catch (error) {
-    console.error("Error actualizando la cuenta:", error);
+
+    console.error(
+      "Error actualizando la cuenta:",
+      error
+    );
   }
-  }
+}
 
 
-// =====================================
-// CERRAR SESIÓN
-// =====================================
+/* =========================
+   CERRAR SESIÓN
+========================= */
 
 async function cerrarSesion() {
 
+  const cliente =
+    obtenerClienteSupabase();
+
+
   const mensaje =
-    document.getElementById("mensajeCuenta");
+    document.getElementById(
+      "mensajeDashboard"
+    );
+
+
+  if (!cliente) return;
 
 
   if (mensaje) {
 
     mensaje.textContent =
       "Cerrando sesión...";
-
-  }
-
-
-  if (!clienteSupabase) {
-    return;
   }
 
 
   const resultado =
-    await clienteSupabase.auth.signOut();
+    await cliente.auth.signOut();
 
 
   if (resultado.error) {
 
-    console.error(resultado.error);
+    console.error(
+      resultado.error
+    );
+
 
     if (mensaje) {
 
       mensaje.textContent =
         "No se pudo cerrar la sesión.";
-
     }
 
     return;
@@ -1005,60 +1631,222 @@ async function cerrarSesion() {
 
     mensaje.textContent =
       "Sesión cerrada correctamente.";
-
   }
 
 
-  const cuentaSesion =
-    document.getElementById("cuentaSesion");
-
-  const cuentaNoSesion =
-    document.getElementById("cuentaNoSesion");
+  await actualizarCuenta();
 
 
-  if (cuentaSesion)
-    cuentaSesion.classList.add("hidden");
+  const login =
+    document.getElementById(
+      "login"
+    );
 
 
-  if (cuentaNoSesion)
-    cuentaNoSesion.classList.remove("hidden");
+  if (login) {
 
+    login.scrollIntoView({
+      behavior: "smooth"
+    });
+
+  }
 }
 
 
-// =====================================
-// INICIALIZACIÓN SEGURA
-// =====================================
+/* =========================
+   MÓDULOS DEL CLIENTE
+========================= */
+
+function abrirModuloCliente(
+  modulo
+) {
+
+  const nombres = {
+
+    perfil: "Perfil",
+
+    servicios: "Servicios",
+
+    solicitudes: "Solicitudes",
+
+    compras: "Compras",
+
+    digitales: "Productos digitales",
+
+    citas: "Citas",
+
+    notificaciones: "Notificaciones",
+
+    pagos: "Pagos"
+
+  };
+
+
+  const nombre =
+    nombres[modulo] || modulo;
+
+
+  const mensaje =
+    document.getElementById(
+      "mensajeDashboard"
+    );
+
+
+  if (mensaje) {
+
+    mensaje.textContent =
+      "Módulo seleccionado: " +
+      nombre +
+      ".";
+
+  }
+
+
+  console.log(
+    "Módulo cliente:",
+    modulo
+  );
+}
+
+
+/* =========================
+   SOLICITAR SERVICIO
+========================= */
+
+async function solicitarServicio(
+  servicio
+) {
+
+  const cliente =
+    obtenerClienteSupabase();
+
+
+  if (!cliente) {
+
+    alert(
+      "No se pudo cargar el sistema. Inténtalo nuevamente."
+    );
+
+    return;
+  }
+
+
+  const resultado =
+    await cliente.auth.getUser();
+
+
+  const usuario =
+    resultado.data &&
+    resultado.data.user
+      ? resultado.data.user
+      : null;
+
+
+  if (!usuario) {
+
+    alert(
+      "Para solicitar este servicio debes iniciar sesión."
+    );
+
+
+    const login =
+      document.getElementById(
+        "login"
+      );
+
+
+    if (login) {
+
+      login.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+
+
+    return;
+  }
+
+
+  const mensaje =
+    document.getElementById(
+      "mensajeDashboard"
+    );
+
+
+  if (mensaje) {
+
+    mensaje.textContent =
+      "Solicitud de servicio " +
+      servicio +
+      " seleccionada.";
+
+  }
+
+
+  const areaCliente =
+    document.getElementById(
+      "areaCliente"
+    );
+
+
+  if (areaCliente) {
+
+    areaCliente.scrollIntoView({
+      behavior: "smooth"
+    });
+
+  }
+}
+
+
+/* =========================
+   PRODUCTOS PRÓXIMAMENTE
+========================= */
+
+function mostrarProximamente() {
+
+  alert(
+    "Estos productos estarán disponibles próximamente en CUBANOVA DIGITAL."
+  );
+}
+
+
+/* =========================
+   INICIALIZACIÓN
+========================= */
 
 document.addEventListener(
   "DOMContentLoaded",
-  function() {
+  function () {
 
     try {
 
-      if (window.supabase) {
+      const cliente =
+        obtenerClienteSupabase();
 
-        clienteSupabase =
-          window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
+
+      if (!cliente) return;
+
+
+      cliente.auth.onAuthStateChange(
+        function () {
+
+          setTimeout(
+            function () {
+
+              actualizarCuenta();
+
+            },
+            0
           );
 
+        }
+      );
 
-        clienteSupabase.auth.onAuthStateChange(
-  function() {
 
-    setTimeout(function() {
       actualizarCuenta();
-    }, 0);
 
-  }
-);
-
-
-        actualizarCuenta();
-
-      }
 
     } catch (error) {
 
@@ -1072,21 +1860,7 @@ document.addEventListener(
   }
 );
 
-
-// =====================================
-// PRODUCTOS PRÓXIMAMENTE
-// =====================================
-
-function mostrarProximamente() {
-
-  alert(
-    "Estos productos estarán disponibles próximamente en CUBANOVA DIGITAL."
-  );
-
-}
-
 </script>
 
-
 </body>
-</html>
+  </html>
