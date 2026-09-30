@@ -1389,6 +1389,92 @@ async function iniciarSesion() {
   }
 }
 
+  async function recuperarContraseña() {
+
+  const cliente =
+    obtenerClienteSupabase();
+
+  const mensaje =
+    document.getElementById(
+      "mensajeLogin"
+    );
+
+  if (!cliente) {
+
+    mensaje.textContent =
+      "No se pudo cargar el sistema de recuperación.";
+
+    return;
+  }
+
+  let correo =
+    document.getElementById(
+      "loginCorreo"
+    ).value.trim();
+
+  if (!correo) {
+
+    correo =
+      prompt(
+        "Escribe el correo electrónico de tu cuenta:"
+      );
+
+    if (!correo) {
+      return;
+    }
+
+    correo = correo.trim();
+  }
+
+  if (!correo) {
+
+    mensaje.textContent =
+      "Introduce un correo electrónico.";
+
+    return;
+  }
+
+  mensaje.textContent =
+    "Enviando correo de recuperación...";
+
+  try {
+
+    const resultado =
+      await cliente.auth.resetPasswordForEmail(
+        correo,
+        {
+          redirectTo:
+            "https://gabrielmaturell-art.github.io/CubaNova-Digital/"
+        }
+      );
+
+    if (resultado.error) {
+
+      console.error(
+        "Error de recuperación de contraseña:",
+        resultado.error
+      );
+
+      mensaje.textContent =
+        "No se pudo enviar el correo de recuperación.";
+
+      return;
+    }
+
+    mensaje.textContent =
+      "Si el correo está registrado, recibirás un enlace para recuperar tu contraseña.";
+
+  } catch (error) {
+
+    console.error(
+      "Error durante la recuperación de contraseña:",
+      error
+    );
+
+    mensaje.textContent =
+      "No se pudo procesar la recuperación.";
+  }
+  }
 
 /* =========================
    ACTUALIZAR CUENTA
