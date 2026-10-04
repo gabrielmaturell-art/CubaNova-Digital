@@ -513,11 +513,13 @@
       <h3>Consulta Premium</h3>
 
       <p>
+        
         Videollamada privada y orientación espiritual
         personalizada, con posibilidad de participación
         de varios especialistas. Enfocada en objetivos
         personales, laborales, prosperidad y apertura
         de caminos.
+        
       </p>
 
       <div class="price">$400</div>
@@ -528,11 +530,13 @@
       <h3>Servicio Espiritual Integral</h3>
 
       <p>
+        
         Atención espiritual integral a distancia,
         con consulta personalizada, orientación,
         trabajos tradicionales cuando correspondan
         y seguimiento posterior, con autorización
         del cliente y sin perjudicar a terceros.
+        
       </p>
 
       <div class="price">$1,500</div>
@@ -2029,8 +2033,7 @@ async function solicitarServicio(
 }
 
 
-
-  async function seleccionarConsulta(
+async function seleccionarConsulta(
   nombre,
   precio
 ) {
@@ -2049,17 +2052,12 @@ async function solicitarServicio(
   }
 
 
-  const consultaSeleccionada = {
-    nombre: nombre,
-    precio: precio
-  };
-
-
   sessionStorage.setItem(
     "consultaSeleccionada",
-    JSON.stringify(
-      consultaSeleccionada
-    )
+    JSON.stringify({
+      nombre: nombre,
+      precio: precio
+    })
   );
 
 
@@ -2075,6 +2073,21 @@ async function solicitarServicio(
 
 
   if (!usuario) {
+
+    const mensaje =
+      document.getElementById(
+        "mensajeLogin"
+      );
+
+
+    if (mensaje) {
+
+      mensaje.textContent =
+        nombre +
+        " seleccionada. Inicia sesión o regístrate para continuar.";
+
+    }
+
 
     const login =
       document.getElementById(
@@ -2095,6 +2108,23 @@ async function solicitarServicio(
   }
 
 
+  const mensajeDashboard =
+    document.getElementById(
+      "mensajeDashboard"
+    );
+
+
+  if (mensajeDashboard) {
+
+    mensajeDashboard.textContent =
+      nombre +
+      " seleccionada — $" +
+      precio +
+      ". Puedes continuar con la confirmación.";
+
+  }
+
+
   const areaCliente =
     document.getElementById(
       "areaCliente"
@@ -2109,6 +2139,9 @@ async function solicitarServicio(
 
   }
   }
+
+        
+  
 
   
 
