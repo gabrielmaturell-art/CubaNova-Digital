@@ -1476,6 +1476,105 @@ async function iniciarSesion() {
   }
   }
 
+
+  async function actualizarPassword() {
+
+  const cliente =
+    obtenerClienteSupabase();
+
+  const mensaje =
+    document.getElementById(
+      "mensajeRecuperacion"
+    );
+
+  if (!cliente) {
+
+    mensaje.textContent =
+      "No se pudo cargar el sistema.";
+
+    return;
+  }
+
+  const nuevaPassword =
+    document.getElementById(
+      "nuevaPassword"
+    ).value;
+
+  const confirmarPassword =
+    document.getElementById(
+      "confirmarPassword"
+    ).value;
+
+  if (!nuevaPassword || !confirmarPassword) {
+
+    mensaje.textContent =
+      "Completa ambos campos.";
+
+    return;
+  }
+
+  if (nuevaPassword.length < 6) {
+
+    mensaje.textContent =
+      "La contraseña debe tener al menos 6 caracteres.";
+
+    return;
+  }
+
+  if (nuevaPassword !== confirmarPassword) {
+
+    mensaje.textContent =
+      "Las contraseñas no coinciden.";
+
+    return;
+  }
+
+  mensaje.textContent =
+    "Actualizando contraseña...";
+
+  try {
+
+    const resultado =
+      await cliente.auth.updateUser({
+        password: nuevaPassword
+      });
+
+    if (resultado.error) {
+
+      console.error(
+        "Error actualizando contraseña:",
+        resultado.error
+      );
+
+      mensaje.textContent =
+        "No se pudo actualizar la contraseña.";
+
+      return;
+    }
+
+    document.getElementById(
+      "nuevaPassword"
+    ).value = "";
+
+    document.getElementById(
+      "confirmarPassword"
+    ).value = "";
+
+    mensaje.textContent =
+      "Contraseña actualizada correctamente.";
+
+  } catch (error) {
+
+    console.error(
+      "Error durante la actualización:",
+      error
+    );
+
+    mensaje.textContent =
+      "No se pudo actualizar la contraseña.";
+  }
+  }
+  
 /* =========================
    ACTUALIZAR CUENTA
 ========================= */
@@ -1924,19 +2023,46 @@ document.addEventListener(
 
 
       cliente.auth.onAuthStateChange(
-        function () {
+  function (
+    evento,
+    session
+  ) {
 
-          setTimeout(
-            function () {
+    if (
+      evento ===
+      "PASSWORD_RECOVERY"
+    ) {
 
-              actualizarCuenta();
+      const formulario =
+        document.getElementById(
+          "recuperacionPassword"
+        );
 
-            },
-            0
-          );
+      if (formulario) {
 
-        }
-      );
+        formulario.style.display =
+          "block";
+
+        formulario.scrollIntoView({
+          behavior: "smooth"
+        });
+
+      }
+
+    }
+
+    setTimeout(
+      function () {
+
+        actualizarCuenta();
+
+      },
+      0
+    );
+
+  }
+);
+      
 
 
       actualizarCuenta();
@@ -1956,5 +2082,42 @@ document.addEventListener(
 
 </script>
 
+  <div
+  id="recuperacionPassword"
+  class="register"
+  style="display:none;"
+>
+
+  <h2>Crear nueva contraseña</h2>
+
+  <input
+    type="password"
+    id="nuevaPassword"
+    placeholder="Nueva contraseña"
+    autocomplete="new-password"
+  >
+
+  <input
+    type="password"
+    id="confirmarPassword"
+    placeholder="Confirmar nueva contraseña"
+    autocomplete="new-password"
+  >
+
+  <button
+    type="button"
+    class="btn"
+    onclick="actualizarPassword()">
+    Guardar nueva contraseña
+  </button>
+
+  <div
+    id="mensajeRecuperacion"
+    class="mensaje">
+  </div>
+
+  </div>
+
+  
 </body>
   </html>
