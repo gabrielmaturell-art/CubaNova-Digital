@@ -2022,6 +2022,89 @@ async function solicitarServicio(
 }
 
 
+
+  async function seleccionarConsulta(
+  nombre,
+  precio
+) {
+
+  const cliente =
+    obtenerClienteSupabase();
+
+
+  if (!cliente) {
+
+    alert(
+      "No se pudo cargar el sistema. Inténtalo nuevamente."
+    );
+
+    return;
+  }
+
+
+  const consultaSeleccionada = {
+    nombre: nombre,
+    precio: precio
+  };
+
+
+  sessionStorage.setItem(
+    "consultaSeleccionada",
+    JSON.stringify(
+      consultaSeleccionada
+    )
+  );
+
+
+  const resultado =
+    await cliente.auth.getUser();
+
+
+  const usuario =
+    resultado.data &&
+    resultado.data.user
+      ? resultado.data.user
+      : null;
+
+
+  if (!usuario) {
+
+    const login =
+      document.getElementById(
+        "login"
+      );
+
+
+    if (login) {
+
+      login.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+
+
+    return;
+  }
+
+
+  const areaCliente =
+    document.getElementById(
+      "areaCliente"
+    );
+
+
+  if (areaCliente) {
+
+    areaCliente.scrollIntoView({
+      behavior: "smooth"
+    });
+
+  }
+  }
+
+  
+
 /* =========================
    PRODUCTOS PRÓXIMAMENTE
 ========================= */
